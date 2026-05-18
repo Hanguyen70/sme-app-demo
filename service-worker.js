@@ -1,8 +1,8 @@
 /* Seahorse Manager — Service Worker (DEMO BUILD)
-   v1.42.0-DEMO
+   v1.43.0-DEMO
 */
 
-const SW_VERSION = 'v1.42.0-DEMO';
+const SW_VERSION = 'v1.43.0-DEMO';
 const CACHE_NAME = `seahorse-demo-${SW_VERSION}`;
 
 const STATIC_ASSETS = [
