@@ -1,5 +1,5 @@
 {
-  "version": "1.41.0-DEMO",
+  "version": "1.42.0-DEMO",
   "released": "2026-05-18",
-  "notes": "DEMO BUILD v1.41.0 — Tổng hợp 2 lần update gần nhất: (1) v1.40.1 Chi hộ với 3 trường NCC/HĐ/HD + báo cáo PDF 2 trang; (2) v1.41.0 Help system inline với nút ❓ Hướng dẫn trên header + auto welcome popup lần đầu đăng nhập. Banner đỏ DEMO ENVIRONMENT, storage keys isolated (seahorse_demo_*), welcome flag isolated. KHÔNG dùng chung Apps Script với production."
+  "notes": "DEMO BUILD v1.42.0 — Soft Archive cho 5 loại master data (Dự án/Tàu/NCC/Loại CP/Loại DT). Admin/BOD/Sub-admin tick chip 'Hoàn thành' để ẩn item khỏi dropdown nhập mới. Bút toán cũ vẫn giữ. Tab Danh mục có cột Trạng thái + nút ⊘/↺ toggle. Cộng dồn cả v1.40.1 Chi hộ + v1.41.0 Help system. Banner đỏ DEMO, storage keys isolated."
 }
