@@ -1,5 +1,5 @@
 {
-  "version": "1.43.0-DEMO",
+  "version": "1.44.0-DEMO",
   "released": "2026-05-18",
-  "notes": "DEMO BUILD v1.43.0 — Fuel-AP integration Phase 1. Admin tick cờ isFuel cho loại CP. AP form tự hiện 3 trường nhiên liệu bắt buộc (DO/LO/FW + SL + ĐG). Event modal có cột Giá trị + dòng Tổng. Tồn đầu tự fill từ kỳ trước. Tồn cuối tự fill đơn giá từ bơm mới nhất (FIFO). Cộng dồn các update trước: v1.40.1 Chi hộ, v1.41.0 Help, v1.42.0 Archive."
+  "notes": "DEMO BUILD v1.44.0 — Restructure 04/06: nav 06 đổi thành 'QL vận hành tàu'. Form nhập Thu/Chi hộ chuyển từ 06 sang 04 (sub-tab thứ 3 'Thu-Chi hộ tàu QL'). Tab 06 chỉ giữ tổng hợp + báo cáo PDF. Auto-migration cấp op_input cho NV có assignedOpVesselIds. Cộng dồn các update trước: v1.40.1 Chi hộ, v1.41.0 Help, v1.42.0 Archive, v1.43.0 Fuel-AP."
 }
