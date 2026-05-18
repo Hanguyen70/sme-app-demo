@@ -1,5 +1,5 @@
 {
-  "version": "1.39.2-DEMO",
+  "version": "1.40.0-DEMO",
   "released": "2026-05-18",
-  "notes": "DEMO BUILD — Bản test cho NV. Isolated storage keys (seahorse_demo_*) — không xung đột với production. Banner đỏ DEMO ENVIRONMENT cố định trên đầu. Title tab: 'SEAHORSE DEMO'. KHÔNG dùng chung Apps Script với production — Cường phải deploy 1 Apps Script + Google Sheet riêng cho demo."
+  "notes": "DEMO BUILD v1.40.0 — Sub-admin (canManageUsers) thêm vào hệ thống. NV được cấp cờ này có thể tạo/sửa/xóa NV + đẩy auth lên cloud. Banner đỏ DEMO ENVIRONMENT, storage keys isolated (seahorse_demo_*). KHÔNG dùng chung Apps Script với production."
 }
