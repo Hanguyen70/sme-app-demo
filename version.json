@@ -1,5 +1,5 @@
 {
-  "version": "1.44.0-DEMO",
+  "version": "1.45.1-DEMO",
   "released": "2026-05-18",
-  "notes": "DEMO BUILD v1.44.0 — Restructure 04/06: nav 06 đổi thành 'QL vận hành tàu'. Form nhập Thu/Chi hộ chuyển từ 06 sang 04 (sub-tab thứ 3 'Thu-Chi hộ tàu QL'). Tab 06 chỉ giữ tổng hợp + báo cáo PDF. Auto-migration cấp op_input cho NV có assignedOpVesselIds. Cộng dồn các update trước: v1.40.1 Chi hộ, v1.41.0 Help, v1.42.0 Archive, v1.43.0 Fuel-AP."
+  "notes": "DEMO BUILD v1.45.1 — Modal nhập liệu có nút ⧉ Mở rộng/Thu hẹp (Alt+W). Áp dụng tất cả modal. Lưu localStorage demo isolated. Cộng dồn các update trước: v1.40.1 Chi hộ, v1.41.0 Help, v1.42.0 Archive, v1.43.0 Fuel-AP, v1.44.0 Restructure 04/06, v1.45.0 Người lập (chữ ký) + filter NCC/Người nhập."
 }
