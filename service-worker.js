@@ -1,8 +1,9 @@
 /* Seahorse Manager — Service Worker (DEMO BUILD)
-   v1.40.0-DEMO
+   v1.41.0-DEMO
+   CACHE_NAME khác production để tránh xung đột Service Worker khi NV mở cả 2 URL trên cùng browser.
 */
 
-const SW_VERSION = 'v1.40.0-DEMO';
+const SW_VERSION = 'v1.41.0-DEMO';
 const CACHE_NAME = `seahorse-demo-${SW_VERSION}`;
 
 const STATIC_ASSETS = [
