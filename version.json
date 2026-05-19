@@ -1,5 +1,5 @@
 {
-  "version": "1.50.0-DEMO",
+  "version": "1.51.0-DEMO",
   "released": "2026-05-19",
-  "notes": "Dashboard cho Chủ công ty: 4 KPI lớn + 5 block tổng quan (Hoạt động tàu / Dòng tiền / Công nợ / Top KH / Phân bổ mảng) + 10 báo cáo chi tiết dạng accordion (A-J: MMR, Cashflow, Aging, Top KH, Cost Breakdown, Drilldown tàu, Margin dự án, Hiệu suất, P&L dự án, Xu hướng)."
+  "notes": "Thêm note Quỹ Tiền Lương trong BCQT: bảng Thu/Chi/Tồn qua các năm với tồn lũy kế. Hiển thị ngay dưới bảng 5 mảng."
 }
