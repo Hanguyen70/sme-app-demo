@@ -1,5 +1,5 @@
 {
-  "version": "1.48.0-DEMO",
+  "version": "1.49.0-DEMO",
   "released": "2026-05-19",
-  "notes": "NEW: Import Excel cho Loại CP + Loại DT từ Danh mục. Template mới với 8 cột (CP) + 6 cột (DT), check trùng Mã code, hỗ trợ aliases header linh hoạt."
+  "notes": "BCQT tinh gọn: chỉ giữ Báo cáo Quản trị. Filter Tháng/Quý/6T/Năm + Date-range custom. KPI cards + bảng 5 mảng. Bao gồm tất cả bút toán (kể cả Nháp) và tất cả chi phí (kể cả PO)."
 }
