@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>🧪 SEAHORSE DEMO · Bản test cho NV</title>
+<title>SEAHORSE · Quản trị Vận hành</title>
 
 <!-- PWA -->
 <link rel="manifest" href="./manifest.json">
@@ -409,18 +409,6 @@ body{min-height:100vh;background-image:radial-gradient(circle at 20% 0%,rgba(184
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-
-<!-- ========= DEMO BANNER (DEMO BUILD ONLY) ========= -->
-<div id="demo-banner" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:linear-gradient(90deg,#b8472e 0%,#e85d3a 50%,#b8472e 100%);color:#fff;text-align:center;padding:8px 16px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.2);user-select:none">
-  🧪 <span style="font-family:'JetBrains Mono',monospace;letter-spacing:.15em">DEMO ENVIRONMENT</span> — Đây là bản DEMO để TEST. Mọi thay đổi KHÔNG ảnh hưởng dữ liệu thật. <span style="opacity:.85;font-weight:400">Bấm "Nạp Demo Data" để reset lại từ đầu.</span>
-</div>
-<style>
-  body { padding-top: 38px !important; }
-  @media (max-width: 600px) {
-    #demo-banner { font-size: 11px; padding: 6px 8px; }
-    body { padding-top: 50px !important; }
-  }
-</style>
 
 <!-- ========= AUTH OVERLAY (login / setup) ========= -->
 <div class="auth-overlay" id="auth-overlay">
@@ -2153,8 +2141,8 @@ body{min-height:100vh;background-image:radial-gradient(circle at 20% 0%,rgba(184
    - Server only sees ciphertext. Role is enforced client-side, but data on disk is identical.
    ============================================================ */
 
-const AUTH_KEY='seahorse_auth_demo_v3';   // multi-user config
-const APP_VERSION='1.45.1-DEMO';            // bumped on each release
+const AUTH_KEY='seahorse_auth_v3';   // multi-user config
+const APP_VERSION='1.47.0';            // bumped on each release
 
 /* ============================================================
    PWA — Service Worker registration + Install prompt
@@ -2781,7 +2769,7 @@ function setAuthConfig(cfg){localStorage.setItem(AUTH_KEY,JSON.stringify(cfg));}
    3 lần sai trong 5 phút → khóa 5 phút theo tên user
    Lưu trong localStorage để giữ qua reload
    ============================================================ */
-const LOGIN_FAIL_KEY='seahorse_demo_login_fails_v1';
+const LOGIN_FAIL_KEY='seahorse_login_fails_v1';
 const MAX_FAIL_ATTEMPTS=3;
 const FAIL_WINDOW_MS=5*60*1000;  // 5 phút
 const LOCK_DURATION_MS=5*60*1000;  // khóa 5 phút
@@ -2849,7 +2837,7 @@ let _maxSessionTimer=null;
 function startMaxSessionTimer(){
   clearTimeout(_maxSessionTimer);
   if(!SESSION_START_TS){
-    const stored=+localStorage.getItem('seahorse_demo_session_start')||0;
+    const stored=+localStorage.getItem('seahorse_session_start')||0;
     if(stored) SESSION_START_TS=stored;
     else return;
   }
@@ -2874,7 +2862,7 @@ async function forceLogoutSession(){
   CURRENT_ROLE=null;
   CURRENT_USER=null;
   SESSION_START_TS=null;
-  localStorage.removeItem('seahorse_demo_session_start');
+  localStorage.removeItem('seahorse_session_start');
   alert('⏱ Phiên đăng nhập đã hết 8 giờ. Đăng nhập lại để tiếp tục.');
   location.reload();
 }
@@ -2941,7 +2929,7 @@ async function authAction(){
     // Success: clear failed attempts + record session start
     clearLoginFails(name);
     SESSION_START_TS=Date.now();
-    localStorage.setItem('seahorse_demo_session_start',String(SESSION_START_TS));
+    localStorage.setItem('seahorse_session_start',String(SESSION_START_TS));
     // Self-wrap in cloud cfg if cloud is configured (fire-and-forget)
     // This silently creates/updates wrap for this user on cloud cfg, so they can pull from new device next time
     if(cfg.scriptUrl){
@@ -4493,7 +4481,7 @@ function helpDetectRole(){
    localStorage key: seahorse_welcome_seen_<username> */
 function checkWelcomePopup(){
   const userKey = isAdmin() ? 'admin' : (CURRENT_USER && CURRENT_USER.name) || 'unknown';
-  const flag = 'seahorse_demo_welcome_seen_' + userKey;
+  const flag = 'seahorse_welcome_seen_' + userKey;
   try{
     if(localStorage.getItem(flag)) return;  // already seen
   }catch(e){return;}
@@ -5197,7 +5185,7 @@ async function logout(){
   clearTimeout(_idleWarnTimer);
   clearTimeout(_maxSessionTimer);
   SESSION_START_TS=null;
-  localStorage.removeItem('seahorse_demo_session_start');
+  localStorage.removeItem('seahorse_session_start');
 
   // CRITICAL: Force sync any pending changes BEFORE logging out
   // Prevents race condition where new user/data is local-only but cloud has old state
@@ -5883,7 +5871,7 @@ const COST_CATS = {
 };
 
 /* ===== STATE ===== */
-const STORE_KEY = 'seahorse_demo_v1';
+const STORE_KEY = 'seahorse_v1';
 let S = loadState();
 // v1.36: Auto-migrate plans on app load (derive profit field if missing)
 try{
@@ -7052,7 +7040,7 @@ function renderCatalog(){
       venTbl.innerHTML = '<tr><td class="empty">Chưa có NCC — tự tạo khi nhập AR/AP, hoặc bấm "+ Thêm"</td></tr>';
     } else {
       const canArchive = canArchiveItem();
-      let h = '<thead><tr><th>Tên</th><th>Mã số thuế</th><th>Liên hệ</th><th class="r">Số AR/AP</th><th>Trạng thái</th>';
+      let h = '<thead><tr><th style="width:90px">Mã NCC</th><th>Tên</th><th>Mã số thuế</th><th>Địa chỉ</th><th class="r">Số AR/AP</th><th>Trạng thái</th>';
       if(adminMode || canArchive) h += '<th></th>';
       h += '</tr></thead><tbody>';
       list.forEach(v => {
@@ -7066,10 +7054,12 @@ function renderCatalog(){
               ? `<button class="icon-btn" title="Mở lại NCC" onclick="toggleArchiveVendor('${v.id}')" style="color:var(--good)">↺</button>`
               : `<button class="icon-btn" title="Đóng NCC — ẩn khỏi gợi ý" onclick="toggleArchiveVendor('${v.id}')" style="color:var(--warn)">⊘</button>`)
           : '';
+        const addressShort = v.address ? (v.address.length>40 ? v.address.slice(0,40)+'…' : v.address) : '—';
         h += `<tr style="${v.archived?'opacity:0.55;background:rgba(168,54,43,.04)':''}">
-          <td><b>${esc(v.name)}</b>${v.code?` <span class="chip" style="font-size:9px">${esc(v.code)}</span>`:''}</td>
+          <td class="mono" style="font-size:11px">${v.code?'<b>'+esc(v.code)+'</b>':'<span style="color:var(--muted)">—</span>'}</td>
+          <td><b>${esc(v.name)}</b></td>
           <td class="mono" style="font-size:11px">${esc(v.taxCode||'—')}</td>
-          <td style="font-size:11px">${esc(v.contact||'—')}</td>
+          <td style="font-size:11px;color:var(--ink-soft)" title="${esc(v.address||'')}">${esc(addressShort)}</td>
           <td class="r mono" style="font-size:11px">${arCount}AR / ${apCount}AP</td>
           <td>${statusChip}</td>
           ${(adminMode || canArchive)?`<td><div class="row-actions">
@@ -7150,16 +7140,38 @@ function _doCatalogAddVendor(){
   err.textContent = '';
   const name = document.getElementById('cat-vendor-name').value.trim();
   const code = document.getElementById('cat-vendor-code').value.trim();
-  const taxCode = document.getElementById('cat-vendor-tax').value.trim();
+  const taxCode = document.getElementById('cat-vendor-tax').value.trim().replace(/\s/g,'');
   const addr = document.getElementById('cat-vendor-addr').value.trim();
   const contact = document.getElementById('cat-vendor-contact').value.trim();
   const note = document.getElementById('cat-vendor-note').value.trim();
   if(!name){err.textContent='Tên NCC bắt buộc';return;}
   if(!S.vendors) S.vendors = [];
+  // v1.47.0: Hard block — MST trùng
+  if(taxCode){
+    const dupTax = findVendorByTaxCode(taxCode);
+    if(dupTax){
+      err.innerHTML = `❌ <b>MST "${esc(taxCode)}" đã có ở NCC khác:</b><br><b>${esc(dupTax.name)}</b>${dupTax.code?' (mã: '+esc(dupTax.code)+')':''} — không cho lưu trùng MST. Vui lòng dùng NCC đã có hoặc kiểm tra lại MST.`;
+      return;
+    }
+  }
   // Normalized for duplicate check
-  const normalized = name.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const normalized = normalizeVendorName(name);
   const dup = S.vendors.find(v=>(v.normalized||'')===normalized);
-  if(dup){err.textContent=`NCC "${dup.name}" đã tồn tại (trùng tên chuẩn hóa)`;return;}
+  if(dup){
+    err.innerHTML = `❌ NCC <b>"${esc(dup.name)}"</b> đã tồn tại (trùng tên chuẩn hóa). Nếu là NCC khác, hãy thêm dấu phẩy hoặc thông tin phân biệt.`;
+    return;
+  }
+  // v1.47.0: Soft warning — similar names (only on first submit click)
+  const similar = findSimilarVendors(name);
+  const skipSimilarBtn = document.getElementById('cat-vendor-skip-similar');
+  if(similar.length && !skipSimilarBtn){
+    const list = similar.map(s => `<li><b>${esc(s.vendor.name)}</b>${s.vendor.taxCode?' · MST '+esc(s.vendor.taxCode):''}${s.vendor.code?' · '+esc(s.vendor.code):''} <span style="color:var(--muted)">(tương đồng ${Math.round(s.score*100)}%)</span></li>`).join('');
+    err.innerHTML = `⚠ Phát hiện <b>${similar.length} NCC tương tự</b> — vui lòng kiểm tra trước khi tạo mới:
+      <ul style="margin:6px 0 6px 18px;padding:0;font-size:11px">${list}</ul>
+      <button id="cat-vendor-skip-similar" class="btn-primary" style="margin-top:6px;font-size:11px;padding:4px 10px" onclick="_doCatalogAddVendor()">Vẫn tạo mới (đã kiểm tra)</button>
+      <button class="btn-sec" style="margin-top:6px;font-size:11px;padding:4px 10px;margin-left:6px" onclick="closeModal()">Hủy</button>`;
+    return;
+  }
   S.vendors.push({
     id: 'V-'+uid(),
     code, name, normalized,
@@ -7169,7 +7181,7 @@ function _doCatalogAddVendor(){
     updatedAt: new Date().toISOString()
   });
   saveState();
-  toast('Đã thêm NCC: '+name);
+  toast('✓ Đã thêm NCC: '+name);
   closeModal();
   renderCatalog();
 }
@@ -7179,14 +7191,104 @@ function editVendor(id){
   if(!isAdmin()){toast('Chỉ admin được sửa NCC','bad');return;}
   const v = (S.vendors||[]).find(x=>x.id===id);
   if(!v){toast('Không tìm thấy','bad');return;}
-  const newName = prompt('Đổi tên NCC:', v.name);
-  if(!newName||!newName.trim()) return;
-  v.name = newName.trim();
-  v.normalized = v.name.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  // v1.47.0: Full modal with code/taxCode/address
+  const body = `
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;padding:8px 10px;background:rgba(28,58,92,.04);border-left:3px solid var(--ink)">
+      <b>Sửa thông tin NCC</b> · ID: ${esc(v.id)}<br>
+      <span style="font-size:11px">Mã số thuế là định danh duy nhất — không được trùng với NCC khác.</span>
+    </div>
+    <div class="form-grid">
+      <div class="field"><label>Mã NCC (theo quy ước của công ty)</label><input type="text" id="vendor-edit-code" value="${esc(v.code||'')}" placeholder="VD: PTSC-VT, PETRO-001, hoặc để trống"></div>
+      <div class="field" style="grid-column:span 2"><label>Tên NCC *</label><input type="text" id="vendor-edit-name" value="${esc(v.name||'')}"></div>
+      <div class="field"><label>Mã số thuế (10 hoặc 13 ký tự)</label><input type="text" id="vendor-edit-tax" value="${esc(v.taxCode||'')}" placeholder="VD: 0301234567"></div>
+      <div class="field" style="grid-column:span 2"><label>Địa chỉ</label><input type="text" id="vendor-edit-address" value="${esc(v.address||'')}" placeholder="VD: 123 Nguyễn Văn Linh, P.Bình Thuận, Q.7, TP.HCM"></div>
+    </div>
+    <div id="vendor-edit-err" style="font-size:12px;color:var(--bad);min-height:14px;font-family:var(--font-mono);margin-top:8px"></div>`;
+  const foot = `<button class="btn-sec" onclick="closeModal()">Hủy</button>
+    <button class="btn-primary" onclick="_doEditVendor('${v.id}')">Lưu</button>`;
+  openModal('Sửa NCC: '+v.name, body, foot);
+}
+
+function _doEditVendor(id){
+  const v = (S.vendors||[]).find(x=>x.id===id);
+  if(!v) return;
+  const err = document.getElementById('vendor-edit-err');
+  err.textContent = '';
+  const newName = document.getElementById('vendor-edit-name').value.trim();
+  const newCode = document.getElementById('vendor-edit-code').value.trim();
+  const newTax = document.getElementById('vendor-edit-tax').value.trim().replace(/\s/g,'');
+  const newAddress = document.getElementById('vendor-edit-address').value.trim();
+  if(!newName){err.textContent='Tên NCC bắt buộc';return;}
+  // v1.47.0: MST trùng → CHẶN
+  if(newTax){
+    const dup = (S.vendors||[]).find(x=>x.id!==id && x.taxCode && normalizeTaxCode(x.taxCode)===normalizeTaxCode(newTax));
+    if(dup){
+      err.textContent=`MST "${newTax}" đã có ở NCC "${dup.name}" — không cho lưu trùng`;
+      return;
+    }
+  }
+  v.name = newName;
+  v.code = newCode;
+  v.taxCode = newTax;
+  v.address = newAddress;
+  v.normalized = normalizeVendorName(newName);
   v.updatedAt = new Date().toISOString();
   saveState();
-  toast('Đã đổi tên NCC');
+  closeModal();
+  toast('✓ Đã cập nhật NCC');
   renderCatalog();
+}
+
+/* v1.47.0: Normalize tax code for comparison — strip spaces, hyphens, uppercase */
+function normalizeTaxCode(tc){
+  if(!tc) return '';
+  return String(tc).replace(/[\s\-\.]/g,'').toUpperCase();
+}
+
+/* v1.47.0: Find vendor by exact MST match (after normalize) */
+function findVendorByTaxCode(taxCode){
+  if(!taxCode) return null;
+  const norm = normalizeTaxCode(taxCode);
+  if(!norm) return null;
+  return (S.vendors||[]).find(v => normalizeTaxCode(v.taxCode) === norm);
+}
+
+/* v1.47.0: Simple fuzzy-like similarity score for vendor names — for "did you mean?" suggestions */
+function vendorNameSimilarity(a, b){
+  if(!a || !b) return 0;
+  const na = String(a).toUpperCase().replace(/[^A-ZÀ-Ỹ0-9 ]/g,'').trim();
+  const nb = String(b).toUpperCase().replace(/[^A-ZÀ-Ỹ0-9 ]/g,'').trim();
+  if(na === nb) return 1.0;
+  // Containment check (one contains the other)
+  if(na.length > 3 && nb.length > 3){
+    if(na.includes(nb) || nb.includes(na)) return 0.85;
+  }
+  // Token overlap (count shared significant tokens >2 chars)
+  const stopWords = new Set(['CTY','CONG','TY','CP','TNHH','MTV','VIETNAM','VN','THE','AND','VA','VÀ','CỦA']);
+  const ta = na.split(/\s+/).filter(t => t.length > 2 && !stopWords.has(t));
+  const tb = nb.split(/\s+/).filter(t => t.length > 2 && !stopWords.has(t));
+  if(!ta.length || !tb.length) return 0;
+  const setA = new Set(ta), setB = new Set(tb);
+  let shared = 0;
+  setA.forEach(t => { if(setB.has(t)) shared++; });
+  const score = shared / Math.min(setA.size, setB.size);
+  return score;
+}
+
+/* v1.47.0: Find vendors with similar names — returns top 5 with score >= 0.4 */
+function findSimilarVendors(name, excludeId){
+  if(!name) return [];
+  const matches = [];
+  (S.vendors||[]).forEach(v => {
+    if(v.id === excludeId) return;
+    if(v.archived) return;
+    const score = vendorNameSimilarity(name, v.name);
+    if(score >= 0.4){
+      matches.push({vendor:v, score});
+    }
+  });
+  matches.sort((a,b) => b.score - a.score);
+  return matches.slice(0, 5);
 }
 
 /* Delete vendor (admin only) */
@@ -7877,10 +7979,10 @@ function openModal(title,bodyHtml,footHtml){
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 
 /* v1.45.0: Modal wide-mode toggle
-   - localStorage key 'seahorse_demo_modal_wide' = '1' / '0' (default '0')
+   - localStorage key 'seahorse_modal_wide' = '1' / '0' (default '0')
    - User can also press Alt+W to toggle anytime */
 function isModalWide(){
-  try{ return localStorage.getItem('seahorse_demo_modal_wide')==='1'; }catch(e){return false;}
+  try{ return localStorage.getItem('seahorse_modal_wide')==='1'; }catch(e){return false;}
 }
 function applyModalWideMode(){
   const win = document.getElementById('modal-window');
@@ -7896,7 +7998,7 @@ function applyModalWideMode(){
 }
 function toggleModalWide(){
   const newState = !isModalWide();
-  try{ localStorage.setItem('seahorse_demo_modal_wide', newState?'1':'0'); }catch(e){}
+  try{ localStorage.setItem('seahorse_modal_wide', newState?'1':'0'); }catch(e){}
   applyModalWideMode();
 }
 
@@ -18629,34 +18731,79 @@ const EXCEL_TEMPLATES={
     name:'Phải thu (Doanh thu)',
     target:'receivables',
     columns:[
-      {key:'partner',     label:'Khách hàng *',         required:true,  type:'text'},
-      {key:'desc',        label:'Diễn giải',            required:false, type:'text'},
-      {key:'segment',     label:'Mảng (VESSEL_SERVICE/VESSEL_TECH/OM/VESSEL_MGMT/OTHER)', required:false, type:'segment'},
-      {key:'projectCode', label:'Mã dự án (PRJ-...)',   required:false, type:'projectLookup'},
-      {key:'vesselName',  label:'Tên tàu',              required:false, type:'vesselLookup'},
-      {key:'issueDate',   label:'Ngày HĐ (YYYY-MM-DD) *',required:true, type:'date'},
-      {key:'dueDate',     label:'Hạn TT (YYYY-MM-DD)',  required:false, type:'date'},
-      {key:'amountNet',   label:'Net (chưa VAT) *',     required:true,  type:'number'},
-      {key:'vatPercent',  label:'% VAT (0/5/8/10)',     required:false, type:'number'},
-      {key:'ccy',         label:'CCY (VND/USD)',        required:false, type:'ccy'}
+      {key:'partner',     label:'Khách hàng *',         required:true,  type:'text',
+        aliases:['Customer','Khách','KH','Đối tác','Tên KH']},
+      {key:'desc',        label:'Diễn giải',            required:false, type:'text',
+        aliases:['Description','Nội dung','Mô tả']},
+      {key:'segment',     label:'Mảng (VESSEL_SERVICE/VESSEL_TECH/OM/VESSEL_MGMT/OTHER)', required:false, type:'segment',
+        aliases:['Segment','Mảng hoạt động']},
+      {key:'projectCode', label:'Mã dự án (PRJ-...)',   required:false, type:'projectLookup',
+        aliases:['Project code','Dự án','Project','Mã DA']},
+      {key:'vesselName',  label:'Tên tàu',              required:false, type:'vesselLookup',
+        aliases:['Tàu','Vessel','Tên Tàu']},
+      {key:'issueDate',   label:'Ngày HĐ (YYYY-MM-DD) *',required:true, type:'date',
+        aliases:['Issue date','Ngày','Ngày phát sinh','Ngày hóa đơn','Date']},
+      {key:'dueDate',     label:'Hạn TT (YYYY-MM-DD)',  required:false, type:'date',
+        aliases:['Due date','Hạn thanh toán','Hạn']},
+      {key:'amountNet',   label:'Net (chưa VAT) *',     required:true,  type:'number',
+        aliases:['Số tiền chưa VAT','Net amount','Tiền','Amount','Số tiền']},
+      {key:'vatPercent',  label:'% VAT (0/5/8/10)',     required:false, type:'number',
+        aliases:['VAT %','VAT','Thuế GTGT']},
+      {key:'ccy',         label:'CCY (VND/USD)',        required:false, type:'ccy',
+        aliases:['Currency','Tiền tệ','Đơn vị tiền tệ']},
+      // v1.46.0: Payment status (for historical data import)
+      {key:'paidAmount',  label:'Đã thu (tùy chọn — để 0 nếu chưa thu)', required:false, type:'number',
+        aliases:['Đã TT','Đã thanh toán','Paid amount','Đã thu','Paid']},
+      {key:'paidDate',    label:'Ngày đã thu',          required:false, type:'date',
+        aliases:['Ngày TT','Paid date','Ngày thu','Ngày trả']},
+      {key:'paidNote',    label:'Ghi chú TT',           required:false, type:'text',
+        aliases:['Paid note','Ghi chú thanh toán','UNC số']}
     ]
   },
   payables:{
     name:'Phải trả (Chi phí)',
     target:'payables',
     columns:[
-      {key:'partner',     label:'NCC *',                required:true,  type:'text'},
-      {key:'desc',        label:'Diễn giải',            required:false, type:'text'},
-      {key:'costCategory',label:'Loại chi phí',         required:false, type:'text'},
-      {key:'segment',     label:'Mảng',                 required:false, type:'segment'},
-      {key:'projectCode', label:'Mã dự án',             required:false, type:'projectLookup'},
-      {key:'vesselName',  label:'Tên tàu',              required:false, type:'vesselLookup'},
-      {key:'issueDate',   label:'Ngày HĐ *',            required:true,  type:'date'},
-      {key:'dueDate',     label:'Hạn TT',               required:false, type:'date'},
-      {key:'dueMonth',    label:'DK tháng TT (YYYY-MM)',required:false, type:'month'},
-      {key:'amountNet',   label:'Net *',                required:true,  type:'number'},
-      {key:'vatPercent',  label:'% VAT',                required:false, type:'number'},
-      {key:'ccy',         label:'CCY',                  required:false, type:'ccy'}
+      {key:'partner',     label:'NCC *',                required:true,  type:'text',
+        aliases:['Nhà cung cấp','Vendor','NCC','Tên NCC','Đối tác']},
+      {key:'desc',        label:'Diễn giải',            required:false, type:'text',
+        aliases:['Description','Mô tả','Nội dung']},
+      {key:'costCategory',label:'Loại chi phí (mã/code)', required:false, type:'text',
+        aliases:['Loại CP','Mã loại CP','Expense type','Loại','Expense category']},
+      {key:'segment',     label:'Mảng',                 required:false, type:'segment',
+        aliases:['Segment','Mảng hoạt động']},
+      {key:'projectCode', label:'Mã dự án',             required:false, type:'projectLookup',
+        aliases:['Project code','Dự án','Project']},
+      {key:'vesselName',  label:'Tên tàu',              required:false, type:'vesselLookup',
+        aliases:['Tàu','Vessel','Tên Tàu']},
+      {key:'issueDate',   label:'Ngày HĐ *',            required:true,  type:'date',
+        aliases:['Issue date','Ngày','Ngày phát sinh','Ngày hóa đơn','Date']},
+      {key:'dueDate',     label:'Hạn TT',               required:false, type:'date',
+        aliases:['Due date','Hạn thanh toán','Hạn']},
+      {key:'dueMonth',    label:'DK tháng TT (YYYY-MM)',required:false, type:'month',
+        aliases:['Tháng TT','Due month']},
+      {key:'amountNet',   label:'Net *',                required:true,  type:'number',
+        aliases:['Số tiền chưa VAT','Net amount','Tiền','Amount','Số tiền']},
+      {key:'vatPercent',  label:'% VAT',                required:false, type:'number',
+        aliases:['VAT %','VAT','Thuế GTGT']},
+      {key:'ccy',         label:'CCY',                  required:false, type:'ccy',
+        aliases:['Currency','Tiền tệ','Đơn vị tiền tệ']},
+      // v1.43.0: Fuel fields — required only when costCategory has isFuel=true
+      {key:'fuelKind',    label:'Loại nhiên liệu (do/lo/fw — chỉ điền cho loại CP nhiên liệu)', required:false, type:'fuelKind',
+        aliases:['Fuel kind','Fuel type','Loại NL','DO/LO/FW']},
+      {key:'fuelQty',     label:'SL nhiên liệu',        required:false, type:'number',
+        aliases:['Fuel qty','Số lượng NL','Số lượng nhiên liệu']},
+      {key:'fuelUnit',    label:'Đơn vị NL (liter/m3/phuy)', required:false, type:'fuelUnit',
+        aliases:['Fuel unit','Đơn vị NL']},
+      {key:'fuelUnitPrice',label:'Đơn giá NL',          required:false, type:'number',
+        aliases:['Fuel unit price','Đơn giá nhiên liệu','Unit price NL','ĐG NL']},
+      // v1.46.0: Payment status (for historical data import)
+      {key:'paidAmount',  label:'Đã trả (tùy chọn — để 0 nếu chưa trả)', required:false, type:'number',
+        aliases:['Đã TT','Đã thanh toán','Paid amount','Đã trả','Paid']},
+      {key:'paidDate',    label:'Ngày đã trả',          required:false, type:'date',
+        aliases:['Ngày TT','Paid date','Ngày trả','Ngày thanh toán']},
+      {key:'paidNote',    label:'Ghi chú TT',           required:false, type:'text',
+        aliases:['Paid note','Ghi chú thanh toán','UNC số']}
     ]
   },
   vessel_expense:{
@@ -18890,6 +19037,57 @@ const EXCEL_TEMPLATES={
       {key:'fuelPumpedFW',   label:'FW bơm vào (liter)',                                         required:false, type:'number'},
       {key:'fuelPumpedFWPrice',label:'Đơn giá FW bơm (USD/liter)',                              required:false, type:'number'}
     ]
+  },
+  vendors:{
+    // v1.47.0: Master data NCC import
+    name:'Nhà cung cấp (NCC) — Master data',
+    target:'vendors',
+    columns:[
+      {key:'code',     label:'Mã NCC (tùy chọn — VD: PTSC-VT, để trống nếu chưa có)', required:false, type:'text',
+        aliases:['Vendor code','Mã','Code','Mã NV','Mã NCC']},
+      {key:'name',     label:'Tên NCC *', required:true, type:'text',
+        aliases:['Tên','Vendor name','Tên doanh nghiệp','Company name','Vendor']},
+      {key:'taxCode',  label:'Mã số thuế (10 hoặc 13 ký tự)', required:false, type:'text',
+        aliases:['MST','Tax code','Mã số thuế','VAT code','Tax']},
+      {key:'address',  label:'Địa chỉ', required:false, type:'text',
+        aliases:['Address','Địa chỉ ĐKKD','Trụ sở']}
+    ]
+  },
+  op_transactions:{
+    // v1.46.0: Thu/Chi hộ tàu QL — import history
+    name:'Thu/Chi hộ tàu QL (Vận hành)',
+    target:'opTransactions',
+    columns:[
+      {key:'date',         label:'Ngày *',                              required:true, type:'date',
+        aliases:['Date','Ngày phát sinh','Ngày chứng từ']},
+      {key:'vesselName',   label:'Tàu QL hộ *',                         required:true, type:'opVesselLookup',
+        aliases:['Tàu','Vessel','Tên tàu','Owner vessel']},
+      {key:'type',         label:'Loại (IN=Thu hộ / OUT=Chi hộ) *',     required:true, type:'opType',
+        aliases:['Type','Loại','Thu/Chi']},
+      {key:'desc',         label:'Diễn giải',                           required:false, type:'text',
+        aliases:['Description','Mô tả','Nội dung']},
+      {key:'amount',       label:'Số tiền *',                           required:true, type:'number',
+        aliases:['Amount','Số tiền','Tiền']},
+      // 3 trường BẮT BUỘC cho Chi hộ (OUT) — v1.40.1
+      {key:'vendor',       label:'NCC (bắt buộc nếu là Chi hộ)',        required:false, type:'text',
+        aliases:['Vendor','Nhà cung cấp','Tên NCC']},
+      {key:'contractNo',   label:'Số hợp đồng',                         required:false, type:'text',
+        aliases:['Contract no','Số HĐ','HD','Hợp đồng']},
+      {key:'invoiceNo',    label:'Số hóa đơn',                          required:false, type:'text',
+        aliases:['Invoice no','Số HD','HD VAT','Hóa đơn']},
+      // Phí ngân hàng + khác
+      {key:'bankFee',      label:'Phí NH',                              required:false, type:'number',
+        aliases:['Bank fee','Phí ngân hàng']},
+      {key:'otherFee',     label:'Phí khác',                            required:false, type:'number',
+        aliases:['Other fee','Phí khác']},
+      {key:'feeNote',      label:'Ghi chú phí',                         required:false, type:'text',
+        aliases:['Fee note','Chú thích phí']},
+      // v1.46.0: Trạng thái thanh toán cho data lịch sử
+      {key:'paid',         label:'Đã TT (1/0 hoặc Yes/No)',             required:false, type:'bool',
+        aliases:['Paid','Đã thanh toán','Status']},
+      {key:'paidDate',     label:'Ngày TT',                             required:false, type:'date',
+        aliases:['Paid date','Ngày thanh toán']}
+    ]
   }
 };
 
@@ -18906,7 +19104,7 @@ function openExcelImport(){
         <li>Mở template, điền dữ liệu (copy/paste từ FAST cũng OK)</li>
         <li>Bấm <b>Upload file đã điền</b> → preview → confirm</li>
       </ol>
-      <p style="color:var(--muted);font-size:11px"><b>Lưu ý:</b> Mọi bút toán import sẽ ở trạng thái <b>Nháp</b> — vẫn cần đi qua workflow duyệt L1/L2 trước khi vào báo cáo BI.</p>
+      <p style="color:var(--muted);font-size:11px"><b>Lưu ý v1.46.0:</b> Bút toán import (AR/AP/Thu-Chi hộ) sẽ <b>tự đặt trạng thái "Đã duyệt"</b> (data lịch sử coi như đã qua workflow). Nếu có cột <b>"Đã thu/trả"</b> + <b>"Ngày TT"</b>, app sẽ tự tạo bản ghi thanh toán tương ứng.</p>
     </div>
 
     <div class="form-grid" style="grid-template-columns:1fr">
@@ -19041,16 +19239,52 @@ function excelParseAndPreview(aoa, tpl, type){
   if(aoa.length<2){toast('File trống','bad');return;}
 
   const headers=aoa[0];
-  // Detect column mapping by header label (case-insensitive, trimmed prefix match)
+  // v1.46.0: Normalize for flexible matching
+  // - Remove Vietnamese diacritics
+  // - Lowercase
+  // - Strip non-alphanumeric (collapse spaces)
+  // - Remove trailing "*"
+  const _normHeader = (s) => String(s||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[đĐ]/g,'d')
+    .toLowerCase()
+    .replace(/\s*\*\s*$/,'')
+    .replace(/[^a-z0-9\s]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+
+  const headersNorm = headers.map(_normHeader);
+
+  // Detect column mapping by header label (with aliases support)
   const colMap={};  // key → column index
+  const matchedHeaderIndices = new Set();
   tpl.columns.forEach((c,i)=>{
-    // Try matching label to header
-    const lblNorm=c.label.toLowerCase().replace(/\s*\*\s*$/,'').trim();
-    const foundIdx=headers.findIndex(h=>{
-      const hNorm=String(h||'').toLowerCase().replace(/\s*\*\s*$/,'').trim();
-      return hNorm===lblNorm || hNorm.startsWith(lblNorm.split(' ')[0]);
-    });
-    colMap[c.key]= foundIdx>=0?foundIdx:i;  // fallback to position
+    // Build list of candidate names: label first, then aliases
+    const candidates = [c.label].concat(c.aliases || []);
+    const candNorms = candidates.map(_normHeader);
+    // Try exact match → prefix match
+    let foundIdx = -1;
+    for(const cn of candNorms){
+      foundIdx = headersNorm.findIndex((hn, idx) => !matchedHeaderIndices.has(idx) && hn === cn);
+      if(foundIdx >= 0) break;
+    }
+    if(foundIdx < 0){
+      // Try prefix match (e.g. "khach hang" matches "khach hang vd: pvep, jvpc")
+      for(const cn of candNorms){
+        if(!cn) continue;
+        const firstWord = cn.split(' ')[0];
+        if(firstWord.length < 3) continue;  // skip too-short tokens
+        foundIdx = headersNorm.findIndex((hn, idx) => !matchedHeaderIndices.has(idx) && (hn.startsWith(cn) || hn.includes(' '+firstWord+' ') || hn === firstWord || hn.startsWith(firstWord+' ')));
+        if(foundIdx >= 0) break;
+      }
+    }
+    if(foundIdx >= 0){
+      colMap[c.key] = foundIdx;
+      matchedHeaderIndices.add(foundIdx);
+    } else {
+      // Fallback to position only if not required
+      colMap[c.key] = c.required ? -1 : i;  // -1 means no column found
+    }
   });
 
   // Parse data rows: skip rows that are clearly instructions (starts with "* BẮT BUỘC")
@@ -19072,6 +19306,12 @@ function _excelRowToRecord(row, colMap, tpl){
   const rec={errors:[], warnings:[], data:{}};
   tpl.columns.forEach(c=>{
     const idx=colMap[c.key];
+    // v1.46.0: idx === -1 means no column found for required field
+    if(idx === -1){
+      if(c.required) rec.errors.push(`${c.key}: thiếu cột bắt buộc (header)`);
+      rec.data[c.key] = c.type==='number' ? 0 : '';
+      return;
+    }
     let val=row[idx];
     if(val===undefined || val===null) val='';
     val=String(val).trim();
@@ -19212,6 +19452,44 @@ function _excelRowToRecord(row, colMap, tpl){
         }
         val=s;
       }
+    } else if(c.type==='fuelKind'){
+      // v1.46.0: do/lo/fw — case-insensitive
+      const s=String(val).toLowerCase().trim();
+      if(!s){ val=''; }
+      else if(['do','lo','fw'].includes(s)){ val=s; }
+      else if(s.includes('diesel')||s.startsWith('d.o')){ val='do'; }
+      else if(s.includes('lube')||s.includes('lub')||s.startsWith('l.o')){ val='lo'; }
+      else if(s.includes('water')||s.startsWith('f.w')||s==='fresh water'){ val='fw'; }
+      else { rec.warnings.push(`${c.key}: loại NL '${val}' không rõ — để trống`); val=''; }
+    } else if(c.type==='fuelUnit'){
+      // v1.46.0: liter/m3/phuy
+      const s=String(val).toLowerCase().trim();
+      if(!s){ val='liter'; }
+      else if(['liter','lit','l','lít','lit'].includes(s)){ val='liter'; }
+      else if(['m3','m³','khối','met khoi'].includes(s)){ val='m3'; }
+      else if(['phuy','phuyl','phuy200','drum'].includes(s)){ val='phuy'; }
+      else { rec.warnings.push(`${c.key}: đơn vị '${val}' không rõ — dùng liter`); val='liter'; }
+    } else if(c.type==='bool'){
+      // v1.46.0: 1/0/yes/no/true/false/x/đã trả/chưa
+      const s=String(val).toLowerCase().trim();
+      if(['1','true','yes','y','x','đã trả','da tra','đã thanh toán','da thanh toan','paid'].includes(s)) val=true;
+      else if(['0','false','no','n','','chưa','chua','chưa trả','chua tra','unpaid'].includes(s)) val=false;
+      else { rec.warnings.push(`${c.key}: giá trị '${val}' không rõ — dùng FALSE`); val=false; }
+    } else if(c.type==='opType'){
+      // v1.46.0: IN (Thu hộ) / OUT (Chi hộ)
+      const s=String(val).toUpperCase().trim();
+      if(s==='IN'||s==='THU'||s.includes('THU HỘ')||s==='THU HO'||s==='IN ') val='IN';
+      else if(s==='OUT'||s==='CHI'||s.includes('CHI HỘ')||s==='CHI HO'||s==='OUT ') val='OUT';
+      else if(!s && c.required) rec.errors.push(`${c.key}: bắt buộc — IN hoặc OUT`);
+      else if(s) { rec.warnings.push(`${c.key}: loại '${val}' không rõ — dùng OUT`); val='OUT'; }
+    } else if(c.type==='opVesselLookup'){
+      // v1.46.0: match by opVessel name (case-insensitive)
+      if(val){
+        const norm = String(val).toLowerCase().trim();
+        const v = (S.opVessels||[]).find(x => String(x.name||'').toLowerCase().trim() === norm);
+        if(!v) rec.errors.push(`Tàu QL hộ "${val}" không tìm thấy — tạo tàu trước ở tab 06`);
+        rec.data._opVesselId = v ? v.id : null;
+      } else { rec.errors.push('Tàu QL hộ bắt buộc'); rec.data._opVesselId = null; }
     }
 
     if(c.required && (val===''||val===0) && c.type!=='number'){
@@ -19277,6 +19555,45 @@ function excelConfirmImport(){
   validRows.forEach(r=>{
     const d=r.data;
     // Branch by target type
+    if(tpl.target==='vendors'){
+      // v1.47.0: NCC import — MST trùng → bỏ qua + warn; tên trùng → bỏ qua + warn
+      if(!S.vendors) S.vendors = [];
+      const name = (d.name||'').trim();
+      if(!name){ warnings.push('Bỏ qua dòng không có Tên NCC'); return; }
+      const taxCode = String(d.taxCode||'').replace(/\s/g,'').trim();
+      // MST check
+      if(taxCode){
+        const dupTax = findVendorByTaxCode(taxCode);
+        if(dupTax){
+          warnings.push(`Bỏ qua: MST "${taxCode}" đã có ở NCC "${dupTax.name}"`);
+          return;
+        }
+      }
+      // Name normalized check
+      const normalized = normalizeVendorName(name);
+      const dupName = S.vendors.find(v => (v.normalized||'') === normalized);
+      if(dupName){
+        warnings.push(`Bỏ qua: tên "${name}" đã có (chuẩn hóa trùng "${dupName.name}")`);
+        return;
+      }
+      S.vendors.push({
+        id: 'V-'+uid(),
+        code: (d.code||'').trim(),
+        name,
+        normalized,
+        taxCode,
+        address: (d.address||'').trim(),
+        contact: '',
+        note: '',
+        createdBy: actorName(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        _importedFromExcel: true,
+        _importBatch: 'IMP-' + new Date().toISOString().slice(0,10)
+      });
+      created++;
+      return;
+    }
     if(tpl.target==='vessels'){
       // Check duplicate name
       if(S.vessels.find(v=>v.name===d.name)){
@@ -19580,15 +19897,72 @@ function excelConfirmImport(){
       return;
     }
     // Default: receivables / payables (with workflow)
+    // v1.46.0: opTransactions branch
+    if(tpl.target==='opTransactions'){
+      if(!d._opVesselId){ warnings.push(`Bỏ qua dòng không có tàu QL hộ`); return; }
+      // For OUT (Chi hộ): vendor required (warn but don't reject — preserve data)
+      const opType = d.type || 'OUT';
+      const isChi = opType === 'OUT';
+      if(isChi && !d.vendor){
+        warnings.push(`Dòng ${d.date}: Chi hộ thiếu NCC — vẫn import`);
+      }
+      const opRec = {
+        id: uid(),
+        date: d.date || todayISO(),
+        vesselId: d._opVesselId,
+        type: opType,
+        desc: d.desc || '',
+        amount: +d.amount || 0,
+        vendor: isChi ? (d.vendor || '') : '',
+        contractNo: isChi ? (d.contractNo || '') : '',
+        invoiceNo: isChi ? (d.invoiceNo || '') : '',
+        paid: !!d.paid,
+        paidDate: d.paid ? (d.paidDate || d.date || '') : '',
+        bankFee: +d.bankFee || 0,
+        otherFee: +d.otherFee || 0,
+        feeNote: d.feeNote || '',
+        createdBy: actorName(),
+        createdByDept: getActorDeptName(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        // v1.46.0 import metadata
+        _importedFromExcel: true,
+        _importBatch: 'IMP-' + new Date().toISOString().slice(0,10)
+      };
+      S.opTransactions.push(opRec);
+      created++;
+      return;
+    }
+
     const net=+d.amountNet||0;
     const vatPercent=+d.vatPercent||0;
     const vatAmount=Math.round(net*vatPercent/100*100)/100;
     const gross=net+vatAmount;
+
+    // v1.46.0: Payment status — create payment record if paidAmount > 0
+    const paidAmt = +d.paidAmount || 0;
+    const paymentsArr = [];
+    if(paidAmt > 0){
+      const ccy = d.ccy || 'USD';
+      paymentsArr.push({
+        date: d.paidDate || d.issueDate || todayISO(),
+        amount: paidAmt,
+        note: d.paidNote || 'Import lịch sử',
+        fxRate: ccy === 'USD' ? (S.fxRate || 25000) : 0,
+        _importedFromExcel: true
+      });
+    }
+
+    // v1.46.0: Auto-set approved status for historical data import
+    const importDate = d.issueDate || todayISO();
+    const approveActor = 'system (import)';
+
     const record={
       id:uid(),
       partner:d.partner||'',
       desc:d.desc||'',
       costCategory:d.costCategory||'',
+      expenseType:d.costCategory||'',  // v1.43.0: also store as expenseType for fuel detection
       amountNet:net, vatPercent, vatAmount, amountGross:gross, amount:gross,
       ccy:d.ccy||'USD',
       segment:d.segment||(tpl.origin==='hr_expense'?'OTHER':(tpl.origin==='qn_expense'?'OM':'VESSEL_SERVICE')),
@@ -19598,19 +19972,34 @@ function excelConfirmImport(){
       dueDate:d.dueDate||'',
       dueMonth:d.dueMonth||'',
       dueAmount:0,
-      payments:[],
-      status:'draft',
-      submittedBy:'',submittedAt:'',
-      approvedL1By:'',approvedL1At:'',
-      approvedL2By:'',approvedL2At:'',
+      payments: paymentsArr,
+      // v1.46.0: Auto-approved for historical import
+      status:'approved',
+      submittedBy: approveActor, submittedAt: importDate,
+      approvedL1By: approveActor, approvedL1At: importDate,
+      approvedL2By: approveActor, approvedL2At: importDate,
       rejectedBy:'',rejectedAt:'',rejectReason:'',rejectedAtLevel:null,
       createdBy:actorName(),
+      createdByDept: getActorDeptName(),  // v1.45.0
       createdAt:new Date().toISOString(),
       _origin:tpl.origin||null,
-      _importedFromExcel:true
+      _importedFromExcel:true,
+      _importBatch: 'IMP-' + new Date().toISOString().slice(0,10)  // v1.46.0
     };
+
+    // v1.43.0: Fuel fields for AP (only if applicable)
+    if(tpl.target==='payables'){
+      if(d.fuelKind || d.fuelQty || d.fuelUnitPrice){
+        record.fuelKind = d.fuelKind || '';
+        record.fuelQty = +d.fuelQty || 0;
+        record.fuelUnit = d.fuelUnit || 'liter';
+        record.fuelUnitPrice = +d.fuelUnitPrice || 0;
+      }
+    }
+
     if(tpl.target==='receivables'){
       delete record.dueMonth; delete record.dueAmount; delete record._origin;
+      delete record.expenseType; delete record.costCategory;
       S.receivables.push(record);
     } else {
       S.payables.push(record);
@@ -19625,12 +20014,17 @@ function excelConfirmImport(){
   closeModal();
   EXCEL_PARSED_DATA=null;
   renderAll();
-  const masterTargets=['fixedAssets','tools','vessels','projects','bankAccounts','bankSnapshots','loans','warehouses','invMovements','events'];
-  const msg=`Đã import ${created} bản ghi${masterTargets.includes(tpl.target)?'':' (Nháp · Cần Gửi → Duyệt L1/L2)'}`;
-  if(warnings.length){
-    toast(msg+` · ${warnings.length} bỏ qua (trùng)`,'warn');
+  const masterTargets=['fixedAssets','tools','vessels','projects','bankAccounts','bankSnapshots','loans','warehouses','invMovements','events','opTransactions','vendors'];
+  let msg;
+  if(masterTargets.includes(tpl.target)){
+    msg = `Đã import ${created} bản ghi`;
   } else {
-    toast(msg);
+    msg = `Đã import ${created} bản ghi (auto-set "Đã duyệt" cho data lịch sử)`;
+  }
+  if(warnings.length){
+    toast(msg+` · ${warnings.length} cảnh báo`,'warn');
+  } else {
+    toast(msg,'good');
   }
 }
 
