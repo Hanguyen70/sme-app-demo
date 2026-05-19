@@ -1,5 +1,5 @@
 {
-  "version": "1.47.0-DEMO",
+  "version": "1.48.0-DEMO",
   "released": "2026-05-19",
-  "notes": "DEMO BUILD v1.47.0 — Master data NCC đầy đủ. Form sửa NCC nâng cấp full modal (Mã/Tên/MST/Địa chỉ). Check trùng MST = CHẶN, tên tương tự = cảnh báo (fuzzy match). Template Excel 'vendors' mới với 4 cột + aliases linh hoạt. Cộng dồn các update trước: v1.40.1 Chi hộ, v1.41.0 Help, v1.42.0 Archive, v1.43.0 Fuel-AP, v1.44.0 Restructure 04/06, v1.45.0 Người lập + filter NCC, v1.45.1 Modal wide, v1.46.0 Import lịch sử."
+  "notes": "NEW: Import Excel cho Loại CP + Loại DT từ Danh mục. Template mới với 8 cột (CP) + 6 cột (DT), check trùng Mã code, hỗ trợ aliases header linh hoạt."
 }
