@@ -1,5 +1,5 @@
 {
-  "version": "1.51.0-DEMO",
+  "version": "1.53.1-DEMO",
   "released": "2026-05-19",
-  "notes": "Thêm note Quỹ Tiền Lương trong BCQT: bảng Thu/Chi/Tồn qua các năm với tồn lũy kế. Hiển thị ngay dưới bảng 5 mảng."
+  "notes": "Bổ sung 11 Đơn giá vào nhóm BOD: chỉ admin/BOD thấy. Nhóm BOD giờ có 4 mục: Kế hoạch, Báo cáo, Đơn giá, Quỹ TL."
 }
