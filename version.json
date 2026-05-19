@@ -1,5 +1,5 @@
 {
-  "version": "1.53.1-DEMO",
+  "version": "1.56.0-DEMO",
   "released": "2026-05-19",
-  "notes": "Bổ sung 11 Đơn giá vào nhóm BOD: chỉ admin/BOD thấy. Nhóm BOD giờ có 4 mục: Kế hoạch, Báo cáo, Đơn giá, Quỹ TL."
+  "notes": "2FA TOTP với Google Authenticator: Admin tự bật cho từng NV. Setup quét QR code + verify 6 số. 10 backup codes in giấy. Remember device 7 ngày. Admin reset 2FA emergency."
 }
