@@ -1,5 +1,5 @@
 {
-  "version": "1.63.0-DEMO",
+  "version": "1.64.0-DEMO",
   "released": "2026-05-20",
-  "notes": "Preset 5 vai trò NV (dropdown trong form Sửa NV: NV/NV Kho/NV KT/KTT/Tùy chỉnh — tự tick tab + cờ quyền). AR auto-approve: KTT/admin nhập Phải thu → duyệt luôn."
+  "notes": "Smart Setup: máy mới mở app → hỏi 'Đã có tài khoản?' (chặn NV tạo admin nhầm). Link mời ?join= → NV vào thẳng Login. Modal 'Mời NV' có link + mật khẩu tạm + mẫu tin nhắn Zalo."
 }

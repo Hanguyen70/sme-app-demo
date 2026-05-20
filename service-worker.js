@@ -1,4 +1,4 @@
-const SW_VERSION = 'v1.63.0-DEMO';
+const SW_VERSION = 'v1.64.0-DEMO';
 const CACHE_NAME = `seahorse-demo-${SW_VERSION}`;
 const STATIC_ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(STATIC_ASSETS))); self.skipWaiting(); });
