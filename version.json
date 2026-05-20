@@ -1,5 +1,5 @@
 {
-  "version": "1.61.0-DEMO",
+  "version": "1.61.1-DEMO",
   "released": "2026-05-19",
-  "notes": "Auto-backup cloud Google Drive: Setup Backup Password riêng (KHÁC password admin). Mỗi 7 ngày tự động upload .json lên Drive folder 'Seahorse Backups'. Giữ 12 file gần nhất."
+  "notes": "Fix Service Worker cache cũ: Auto-detect version mới khi load + force unregister SW + clear caches + reload. Cường không cần Ctrl+Shift+R thủ công."
 }

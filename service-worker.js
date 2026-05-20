@@ -1,4 +1,4 @@
-const SW_VERSION = 'v1.61.0-DEMO';
+const SW_VERSION = 'v1.61.1-DEMO';
 const CACHE_NAME = `seahorse-demo-${SW_VERSION}`;
 const STATIC_ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', (event) => {
@@ -14,6 +14,8 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  // Never cache version.json
+  if (url.pathname.endsWith('/version.json')) return;
   const isHTML = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
   if (isHTML) {
     event.respondWith(fetch(req).then((res) => { const clone = res.clone(); caches.open(CACHE_NAME).then((cache) => cache.put(req, clone)); return res; }).catch(() => caches.match(req).then((r) => r || caches.match('./index.html'))));
