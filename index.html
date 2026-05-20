@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>🧪 SEAHORSE DEMO · Bản test cho NV</title>
+<title>SEAHORSE · Quản trị Vận hành</title>
 
 <!-- PWA -->
 <link rel="manifest" href="./manifest.json">
@@ -440,18 +440,6 @@ body{min-height:100vh;background-image:radial-gradient(circle at 20% 0%,rgba(184
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-
-<!-- ========= DEMO BANNER (DEMO BUILD ONLY) ========= -->
-<div id="demo-banner" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:linear-gradient(90deg,#b8472e 0%,#e85d3a 50%,#b8472e 100%);color:#fff;text-align:center;padding:8px 16px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.2);user-select:none">
-  🧪 <span style="font-family:'JetBrains Mono',monospace;letter-spacing:.15em">DEMO ENVIRONMENT</span> — Đây là bản DEMO để TEST. Mọi thay đổi KHÔNG ảnh hưởng dữ liệu thật. <span style="opacity:.85;font-weight:400">Bấm "Nạp Demo Data" để reset lại từ đầu.</span>
-</div>
-<style>
-  body { padding-top: 38px !important; }
-  @media (max-width: 600px) {
-    #demo-banner { font-size: 11px; padding: 6px 8px; }
-    body { padding-top: 50px !important; }
-  }
-</style>
 
 <!-- ========= AUTH OVERLAY (login / setup) ========= -->
 <div class="auth-overlay" id="auth-overlay">
@@ -2321,8 +2309,14 @@ body{min-height:100vh;background-image:radial-gradient(circle at 20% 0%,rgba(184
    - Server only sees ciphertext. Role is enforced client-side, but data on disk is identical.
    ============================================================ */
 
-const AUTH_KEY='seahorse_auth_demo_v3';   // multi-user config
-const APP_VERSION='1.66.0-DEMO';            // bumped on each release
+const AUTH_KEY='seahorse_auth_v3';   // multi-user config
+const APP_VERSION='1.68.0';            // bumped on each release
+
+/* v1.68.0: URL Apps Script của công ty — nhúng cứng để NV không cần nhập / không cần ?join=.
+   Khi máy mới mở app, app tự dùng URL này kết nối cloud → vào thẳng Login.
+   An toàn: bảo mật nằm ở mật khẩu + mã hóa, không phải ở việc giấu URL (Kerckhoffs).
+   Để TRỐNG ('') nếu muốn app hỏi URL thủ công (chế độ cũ). */
+const COMPANY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxq2Nv_D62lGjzayLvP-nLycQPql8VWlH_EdpX9O4LVdbUabF38HA2QOowjSPn1BHnb/exec';
 
 /* ============================================================
    PWA — Service Worker registration + Install prompt
@@ -2584,7 +2578,7 @@ async function cloudBackupSilent(){
     if(daysSince < 7) return {ok:false, reason:'too recent'};
 
     // Get backup password from session storage (set during login)
-    const backupPw = sessionStorage.getItem('seahorse_demo_backup_pw');
+    const backupPw = sessionStorage.getItem('seahorse_backup_pw');
     if(!backupPw){
       console.warn('[cloud-backup] Backup password not in session — will prompt next login');
       return {ok:false, reason:'no pw in session'};
@@ -2701,7 +2695,7 @@ async function _saveBackupPasswordSetup(){
     const backupAuth = await setupBackupPassword(pw1);
     cfg.backupPassword = backupAuth;
     setAuthConfig(cfg);
-    sessionStorage.setItem('seahorse_demo_backup_pw', pw1);
+    sessionStorage.setItem('seahorse_backup_pw', pw1);
     try{ logAuditEvent('backup_pw_setup', {by:'admin'}); }catch(e){}
     closeModal();
     toast('✓ Đã đặt Backup Password — sẽ tự backup lên Drive','good');
@@ -2746,7 +2740,7 @@ async function promptBackupPasswordForSession(){
       errEl.textContent = '';
       const ok = await verifyBackupPassword(pw, cfg.backupPassword);
       if(!ok){ errEl.textContent = '❌ Backup password sai'; return; }
-      sessionStorage.setItem('seahorse_demo_backup_pw', pw);
+      sessionStorage.setItem('seahorse_backup_pw', pw);
       closeModal();
       resolve(pw);
     };
@@ -3560,7 +3554,7 @@ function setAuthConfig(cfg){localStorage.setItem(AUTH_KEY,JSON.stringify(cfg));}
    3 lần sai trong 5 phút → khóa 5 phút theo tên user
    Lưu trong localStorage để giữ qua reload
    ============================================================ */
-const LOGIN_FAIL_KEY='seahorse_demo_login_fails_v1';
+const LOGIN_FAIL_KEY='seahorse_login_fails_v1';
 const MAX_FAIL_ATTEMPTS=3;
 const FAIL_WINDOW_MS=5*60*1000;  // 5 phút
 const LOCK_DURATION_MS=5*60*1000;  // khóa 5 phút
@@ -3628,7 +3622,7 @@ let _maxSessionTimer=null;
 function startMaxSessionTimer(){
   clearTimeout(_maxSessionTimer);
   if(!SESSION_START_TS){
-    const stored=+localStorage.getItem('seahorse_demo_session_start')||0;
+    const stored=+localStorage.getItem('seahorse_session_start')||0;
     if(stored) SESSION_START_TS=stored;
     else return;
   }
@@ -3653,7 +3647,7 @@ async function forceLogoutSession(){
   CURRENT_ROLE=null;
   CURRENT_USER=null;
   SESSION_START_TS=null;
-  localStorage.removeItem('seahorse_demo_session_start');
+  localStorage.removeItem('seahorse_session_start');
   alert('⏱ Phiên đăng nhập đã hết 8 giờ. Đăng nhập lại để tiếp tục.');
   location.reload();
 }
@@ -3663,7 +3657,7 @@ async function authAction(){
   // v1.64.0: Máy mới qua Smart Setup — có pending scriptUrl, cfg local chưa có
   // → pull cfg từ cloud trước khi login
   if(!cfg){
-    const pendingUrl=sessionStorage.getItem('seahorse_demo_pending_scripturl');
+    const pendingUrl=sessionStorage.getItem('seahorse_pending_scripturl');
     if(pendingUrl){
       const err=document.getElementById('auth-err');
       const name=document.getElementById('auth-name').value.trim();
@@ -3675,7 +3669,7 @@ async function authAction(){
         if(!pulled){ throw new Error('Không giải mã được — kiểm tra mật khẩu'); }
         // cfg đã lưu local → tiếp tục login bình thường
         cfg=getAuthConfig();
-        sessionStorage.removeItem('seahorse_demo_pending_scripturl');
+        sessionStorage.removeItem('seahorse_pending_scripturl');
         if(err) err.textContent='';
       }catch(e){
         if(err){ err.style.color='var(--bad)'; err.textContent='Lỗi: '+e.message; }
@@ -3755,7 +3749,7 @@ async function authAction(){
     // Success: clear failed attempts + record session start
     clearLoginFails(name);
     SESSION_START_TS=Date.now();
-    localStorage.setItem('seahorse_demo_session_start',String(SESSION_START_TS));
+    localStorage.setItem('seahorse_session_start',String(SESSION_START_TS));
     // Self-wrap in cloud cfg if cloud is configured (fire-and-forget)
     // This silently creates/updates wrap for this user on cloud cfg, so they can pull from new device next time
     if(cfg.scriptUrl){
@@ -4974,7 +4968,7 @@ async function _complete2FALogin(){
   // Continue normal post-login flow (mirrors original login code)
   clearLoginFails(pending.name);
   SESSION_START_TS = Date.now();
-  localStorage.setItem('seahorse_demo_session_start', String(SESSION_START_TS));
+  localStorage.setItem('seahorse_session_start', String(SESSION_START_TS));
   const cfg = getAuthConfig();
   if(cfg.scriptUrl && CURRENT_ROLE === 'user'){
     selfWrapInCloudCfg(pending.name, pending.pw).catch(e => console.warn('[self-wrap]', e.message));
@@ -5250,7 +5244,7 @@ async function manualCloudBackup(){
   if(!isAdmin()){ toast('Chỉ admin','bad'); return; }
   const cfg = getAuthConfig();
   if(!cfg.backupPassword?.hash){ showSetupBackupPasswordPrompt(); return; }
-  let backupPw = sessionStorage.getItem('seahorse_demo_backup_pw');
+  let backupPw = sessionStorage.getItem('seahorse_backup_pw');
   if(!backupPw){
     backupPw = await promptBackupPasswordForSession();
     if(!backupPw){ toast('Cần backup password để backup','warn'); return; }
@@ -5387,7 +5381,7 @@ async function _executeChangeBackupPw(){
     const newAuth = await setupBackupPassword(pwNew);
     cfg.backupPassword = newAuth;
     setAuthConfig(cfg);
-    sessionStorage.setItem('seahorse_demo_backup_pw', pwNew);
+    sessionStorage.setItem('seahorse_backup_pw', pwNew);
     try{ logAuditEvent('backup_pw_change', {by:'admin'}); }catch(e){}
     closeModal();
     toast('✓ Đã đổi Backup Password','good');
@@ -6028,9 +6022,10 @@ function showInviteModalAfterCreate(username, fullName, tempPw){
   const cfg=getAuthConfig();
   const scriptUrl=cfg.scriptUrl||'';
   const appUrl=window.location.origin+window.location.pathname;
-  const joinLink=scriptUrl
-    ? `${appUrl}?join=${encodeURIComponent(scriptUrl)}`
-    : appUrl;
+  // v1.68.0: Nếu app đã nhúng URL công ty → link sạch (không cần ?join=)
+  const joinLink = COMPANY_SCRIPT_URL
+    ? appUrl
+    : (scriptUrl ? `${appUrl}?join=${encodeURIComponent(scriptUrl)}` : appUrl);
   const zaloMsg=`Chào ${fullName||username}, bạn được cấp tài khoản phần mềm Seahorse Manager.
 1. Mở link: ${joinLink}
 2. Đăng nhập:
@@ -6086,6 +6081,12 @@ function sendInviteEmail(idx){
   const appUrl=window.location.origin+window.location.pathname.replace(/\/index\.html$/,'/');
   const company=(S.companyInfo&&S.companyInfo.name)||(S.companyInfo&&S.companyInfo.nameEn)||'Seahorse Marine & Energy';
   const adminContact=actorName()||'Admin';
+  // v1.67.0: Link mời ?join= — NV bấm vào là vào thẳng Login (URL tự cấu hình)
+  // v1.68.0: Nếu app nhúng URL công ty → link sạch (không cần ?join=)
+  const scriptUrl=cfg.scriptUrl||'';
+  const joinLink = COMPANY_SCRIPT_URL
+    ? appUrl
+    : (scriptUrl ? `${appUrl}?join=${encodeURIComponent(scriptUrl)}` : appUrl);
 
   // Tabs list
   const tabLabels=(u.tabs||[]).map(t=>{const T=ALL_TABS.find(x=>x.id===t);return T?T.label:t;}).join(', ')||'(chưa gán tab)';
@@ -6108,11 +6109,12 @@ function sendInviteEmail(idx){
     `═══════════════════════════════════════`,
     `THÔNG TIN ĐĂNG NHẬP`,
     `═══════════════════════════════════════`,
-    `• URL truy cập: ${appUrl}`,
+    `• Link đăng nhập: ${joinLink}`,
     `• Tên đăng nhập: ${esc(u.name)}`,
     `• Mật khẩu tạm: ******** (xem tin nhắn riêng / Zalo từ ${adminContact})`,
     ``,
     `LƯU Ý: Vì lý do bảo mật, mật khẩu được gửi riêng qua kênh khác (SMS/Zalo/gặp trực tiếp).`,
+    scriptUrl?`Link trên đã được cấu hình sẵn — chỉ cần bấm vào là vào thẳng màn hình đăng nhập.`:'',
     ``,
     `═══════════════════════════════════════`,
     `QUYỀN HẠN CỦA BẠN`,
@@ -6126,9 +6128,9 @@ function sendInviteEmail(idx){
     `═══════════════════════════════════════`,
     `HƯỚNG DẪN ĐĂNG NHẬP LẦN ĐẦU`,
     `═══════════════════════════════════════`,
-    `1. Mở trình duyệt (Chrome/Edge/Safari) và truy cập URL trên`,
-    `2. Nhập "Tên đăng nhập" + "Mật khẩu" → bấm Đăng nhập`,
-    `3. Đọc qua các tab bạn có quyền để làm quen`,
+    `1. Bấm vào "Link đăng nhập" ở trên (mở trên Chrome/Edge/Safari)`,
+    `2. Nhập "Tên đăng nhập" + "Mật khẩu tạm" → bấm Đăng nhập`,
+    `3. Hệ thống yêu cầu đổi mật khẩu mới — đặt mật khẩu riêng của bạn`,
     `4. Nếu có thắc mắc → liên hệ ${adminContact}`,
     ``,
     `═══════════════════════════════════════`,
@@ -6244,6 +6246,13 @@ function showAuthOverlay(){
       overlay.classList.remove('hide');
       return;
     }
+    // v1.68.0: Nếu app có nhúng URL công ty → tự kết nối, vào thẳng Login.
+    // NV chỉ cần mở link sạch erp.seahorse.com.vn — không cần ?join=, không Smart Setup.
+    if(COMPANY_SCRIPT_URL && /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(COMPANY_SCRIPT_URL)){
+      _smartSetupJoinViaLink(COMPANY_SCRIPT_URL);
+      overlay.classList.remove('hide');
+      return;
+    }
     loginBlock.style.display='none';
     setupBlock.style.display='none';
     showSmartSetupChoice();
@@ -6317,7 +6326,7 @@ async function _smartSetupConnectExisting(){
       return;
     }
     // Cloud có auth → lưu scriptUrl tạm, hiện Login (login sẽ pull cfg)
-    sessionStorage.setItem('seahorse_demo_pending_scripturl', url);
+    sessionStorage.setItem('seahorse_pending_scripturl', url);
     errEl.style.color='var(--good)';
     errEl.textContent='✓ Đã kết nối. Vui lòng đăng nhập.';
     setTimeout(()=>{
@@ -6349,7 +6358,7 @@ async function _smartSetupJoinViaLink(url){
     if(!data.ok || (!data.payload && !data.payload_gz)){
       throw new Error('Link mời không hợp lệ hoặc cloud chưa có dữ liệu');
     }
-    sessionStorage.setItem('seahorse_demo_pending_scripturl', url);
+    sessionStorage.setItem('seahorse_pending_scripturl', url);
     el.style.display='none';
     document.getElementById('auth-login-form').style.display='block';
     document.getElementById('auth-action-btn').textContent='Đăng nhập';
@@ -6821,7 +6830,7 @@ function helpDetectRole(){
    localStorage key: seahorse_welcome_seen_<username> */
 function checkWelcomePopup(){
   const userKey = isAdmin() ? 'admin' : (CURRENT_USER && CURRENT_USER.name) || 'unknown';
-  const flag = 'seahorse_demo_welcome_seen_' + userKey;
+  const flag = 'seahorse_welcome_seen_' + userKey;
   try{
     if(localStorage.getItem(flag)) return;  // already seen
   }catch(e){return;}
@@ -7533,7 +7542,7 @@ async function logout(){
   clearTimeout(_idleWarnTimer);
   clearTimeout(_maxSessionTimer);
   SESSION_START_TS=null;
-  localStorage.removeItem('seahorse_demo_session_start');
+  localStorage.removeItem('seahorse_session_start');
 
   // CRITICAL: Force sync any pending changes BEFORE logging out
   // Prevents race condition where new user/data is local-only but cloud has old state
@@ -8272,7 +8281,7 @@ const COST_CATS = {
 };
 
 /* ===== STATE ===== */
-const STORE_KEY = 'seahorse_demo_v1';
+const STORE_KEY = 'seahorse_v1';
 let S = loadState();
 // v1.36: Auto-migrate plans on app load (derive profit field if missing)
 try{
@@ -10407,10 +10416,10 @@ function openModal(title,bodyHtml,footHtml){
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 
 /* v1.45.0: Modal wide-mode toggle
-   - localStorage key 'seahorse_demo_modal_wide' = '1' / '0' (default '0')
+   - localStorage key 'seahorse_modal_wide' = '1' / '0' (default '0')
    - User can also press Alt+W to toggle anytime */
 function isModalWide(){
-  try{ return localStorage.getItem('seahorse_demo_modal_wide')==='1'; }catch(e){return false;}
+  try{ return localStorage.getItem('seahorse_modal_wide')==='1'; }catch(e){return false;}
 }
 function applyModalWideMode(){
   const win = document.getElementById('modal-window');
@@ -10426,7 +10435,7 @@ function applyModalWideMode(){
 }
 function toggleModalWide(){
   const newState = !isModalWide();
-  try{ localStorage.setItem('seahorse_demo_modal_wide', newState?'1':'0'); }catch(e){}
+  try{ localStorage.setItem('seahorse_modal_wide', newState?'1':'0'); }catch(e){}
   applyModalWideMode();
 }
 
