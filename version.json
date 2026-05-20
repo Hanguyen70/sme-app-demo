@@ -1,5 +1,5 @@
 {
-  "version": "1.61.1-DEMO",
-  "released": "2026-05-19",
-  "notes": "Fix Service Worker cache cũ: Auto-detect version mới khi load + force unregister SW + clear caches + reload. Cường không cần Ctrl+Shift+R thủ công."
+  "version": "1.62.0-DEMO",
+  "released": "2026-05-20",
+  "notes": "Menu Restructure: 03 Tàu&Onhire → 0N-OFFHIRE (chỉ khai thác). Quản lý tàu (thêm/sửa/xóa) chuyển về M.Danh mục → Tàu công ty. Gộp 08 Kho vật tư vào 09 Tài sản (dropdown)."
 }

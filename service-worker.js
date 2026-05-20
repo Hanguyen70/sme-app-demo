@@ -1,25 +1,13 @@
-const SW_VERSION = 'v1.61.1-DEMO';
+const SW_VERSION = 'v1.62.0-DEMO';
 const CACHE_NAME = `seahorse-demo-${SW_VERSION}`;
 const STATIC_ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
-self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS)));
-  self.skipWaiting();
-});
-self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith('seahorse-demo-') && k !== CACHE_NAME).map((k) => caches.delete(k)))));
-  self.clients.claim();
-});
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
-  // Never cache version.json
+self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(STATIC_ASSETS))); self.skipWaiting(); });
+self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith('seahorse-demo-') && k !== CACHE_NAME).map(k => caches.delete(k))))); self.clients.claim(); });
+self.addEventListener('fetch', (e) => {
+  const req = e.request; if (req.method !== 'GET') return;
+  const url = new URL(req.url); if (url.origin !== self.location.origin) return;
   if (url.pathname.endsWith('/version.json')) return;
   const isHTML = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
-  if (isHTML) {
-    event.respondWith(fetch(req).then((res) => { const clone = res.clone(); caches.open(CACHE_NAME).then((cache) => cache.put(req, clone)); return res; }).catch(() => caches.match(req).then((r) => r || caches.match('./index.html'))));
-    return;
-  }
-  event.respondWith(caches.match(req).then((cached) => cached || fetch(req).then((res) => { if (res.ok) { const clone = res.clone(); caches.open(CACHE_NAME).then((cache) => cache.put(req, clone)); } return res; })));
+  if (isHTML) { e.respondWith(fetch(req).then(r => { const c = r.clone(); caches.open(CACHE_NAME).then(ca => ca.put(req, c)); return r; }).catch(() => caches.match(req).then(r => r || caches.match('./index.html')))); return; }
+  e.respondWith(caches.match(req).then(c => c || fetch(req).then(r => { if (r.ok) { const cl = r.clone(); caches.open(CACHE_NAME).then(ca => ca.put(req, cl)); } return r; })));
 });
