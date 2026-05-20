@@ -1,5 +1,5 @@
 {
-  "version": "1.62.0-DEMO",
+  "version": "1.62.1-DEMO",
   "released": "2026-05-20",
-  "notes": "Menu Restructure: 03 Tàu&Onhire → 0N-OFFHIRE (chỉ khai thác). Quản lý tàu (thêm/sửa/xóa) chuyển về M.Danh mục → Tàu công ty. Gộp 08 Kho vật tư vào 09 Tài sản (dropdown)."
+  "notes": "Sắp xếp lại nav: M.Danh mục chuyển lên ngay sau Dashboard (trước 02 Dự án) — master data là nền tảng nhập liệu."
 }
