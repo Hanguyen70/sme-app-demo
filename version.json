@@ -1,5 +1,5 @@
 {
-  "version": "1.71.0-DEMO",
+  "version": "1.72.0-DEMO",
   "released": "2026-05-20",
-  "notes": "Mục Hướng dẫn viết lại theo 5 vai trò mới (NV / NV Kho / NV KT / KTT / Admin) khớp file hướng dẫn Word."
+  "notes": "Phân quyền hiển thị: NV Nhập liệu chỉ thấy bút toán do mình nhập; NV KT / KTT / Admin thấy tất cả."
 }
