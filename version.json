@@ -1,5 +1,5 @@
 {
-  "version": "1.72.0-DEMO",
+  "version": "1.73.0-DEMO",
   "released": "2026-05-20",
-  "notes": "Phân quyền hiển thị: NV Nhập liệu chỉ thấy bút toán do mình nhập; NV KT / KTT / Admin thấy tất cả."
+  "notes": "Đa công ty bước 1: thêm Danh mục Công ty trong tab Danh mục — khai báo công ty mẹ + công ty con."
 }
