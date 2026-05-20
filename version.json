@@ -1,5 +1,5 @@
 {
-  "version": "1.68.0-DEMO",
+  "version": "1.71.0-DEMO",
   "released": "2026-05-20",
-  "notes": "Link đăng nhập sạch: app nhúng cứng URL công ty → NV mở link gọn (erp.seahorse.com.vn) là vào thẳng. Bản demo để trống URL (dùng Smart Setup)."
+  "notes": "Mục Hướng dẫn viết lại theo 5 vai trò mới (NV / NV Kho / NV KT / KTT / Admin) khớp file hướng dẫn Word."
 }
