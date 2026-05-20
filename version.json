@@ -1,5 +1,5 @@
 {
-  "version": "1.73.0-DEMO",
+  "version": "1.74.0-DEMO",
   "released": "2026-05-20",
-  "notes": "Đa công ty bước 1: thêm Danh mục Công ty trong tab Danh mục — khai báo công ty mẹ + công ty con."
+  "notes": "Đa công ty bước 2: form Phải thu/Phải trả có ô chọn Công ty; sổ có cột Công ty."
 }
