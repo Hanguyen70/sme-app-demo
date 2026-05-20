@@ -1,5 +1,5 @@
 {
-  "version": "1.62.2-DEMO",
+  "version": "1.63.0-DEMO",
   "released": "2026-05-20",
-  "notes": "Nav: đổi '0N OFFHIRE' thành '03 ON-OFFHIRE' (giữ số 03, tên rõ nghĩa on-hire/off-hire)."
+  "notes": "Preset 5 vai trò NV (dropdown trong form Sửa NV: NV/NV Kho/NV KT/KTT/Tùy chỉnh — tự tick tab + cờ quyền). AR auto-approve: KTT/admin nhập Phải thu → duyệt luôn."
 }
