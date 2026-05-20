@@ -1,5 +1,5 @@
 {
-  "version": "1.65.0-DEMO",
+  "version": "1.66.0-DEMO",
   "released": "2026-05-20",
-  "notes": "Quản lý hóa đơn VAT (phần 1): Loại NCC (Doanh nghiệp/CBCNV/Cá nhân/Nước ngoài). Cảnh báo nhẹ MST khi loại Doanh nghiệp thiếu MST. Sign phiếu AP: Người nhập + Bộ phận hiện ở bảng + modal."
+  "notes": "Bảng kê thuế GTGT động: tab 12 NSNN có sub-tab 'Bảng kê GTGT' tự gom hóa đơn VAT từ AP. Xuất Excel + PDF. Nút 'Xuất bảng kê VAT' ở tab 04 Phải trả."
 }
