@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>🧪 SEAHORSE DEMO · Bản test cho NV</title>
+<title>SEAHORSE · Quản trị Vận hành</title>
 
 <!-- PWA -->
 <link rel="manifest" href="./manifest.json">
@@ -440,18 +440,6 @@ body{min-height:100vh;background-image:radial-gradient(circle at 20% 0%,rgba(184
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-
-<!-- ========= DEMO BANNER (DEMO BUILD ONLY) ========= -->
-<div id="demo-banner" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:linear-gradient(90deg,#b8472e 0%,#e85d3a 50%,#b8472e 100%);color:#fff;text-align:center;padding:8px 16px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.2);user-select:none">
-  🧪 <span style="font-family:'JetBrains Mono',monospace;letter-spacing:.15em">DEMO ENVIRONMENT</span> — Đây là bản DEMO để TEST. Mọi thay đổi KHÔNG ảnh hưởng dữ liệu thật. <span style="opacity:.85;font-weight:400">Bấm "Nạp Demo Data" để reset lại từ đầu.</span>
-</div>
-<style>
-  body { padding-top: 38px !important; }
-  @media (max-width: 600px) {
-    #demo-banner { font-size: 11px; padding: 6px 8px; }
-    body { padding-top: 50px !important; }
-  }
-</style>
 
 <!-- ========= AUTH OVERLAY (login / setup) ========= -->
 <div class="auth-overlay" id="auth-overlay">
@@ -2289,8 +2277,8 @@ body{min-height:100vh;background-image:radial-gradient(circle at 20% 0%,rgba(184
    - Server only sees ciphertext. Role is enforced client-side, but data on disk is identical.
    ============================================================ */
 
-const AUTH_KEY='seahorse_auth_demo_v3';   // multi-user config
-const APP_VERSION='1.62.2-DEMO';            // bumped on each release
+const AUTH_KEY='seahorse_auth_v3';   // multi-user config
+const APP_VERSION='1.62.2';            // bumped on each release
 
 /* ============================================================
    PWA — Service Worker registration + Install prompt
@@ -2552,7 +2540,7 @@ async function cloudBackupSilent(){
     if(daysSince < 7) return {ok:false, reason:'too recent'};
 
     // Get backup password from session storage (set during login)
-    const backupPw = sessionStorage.getItem('seahorse_demo_backup_pw');
+    const backupPw = sessionStorage.getItem('seahorse_backup_pw');
     if(!backupPw){
       console.warn('[cloud-backup] Backup password not in session — will prompt next login');
       return {ok:false, reason:'no pw in session'};
@@ -2669,7 +2657,7 @@ async function _saveBackupPasswordSetup(){
     const backupAuth = await setupBackupPassword(pw1);
     cfg.backupPassword = backupAuth;
     setAuthConfig(cfg);
-    sessionStorage.setItem('seahorse_demo_backup_pw', pw1);
+    sessionStorage.setItem('seahorse_backup_pw', pw1);
     try{ logAuditEvent('backup_pw_setup', {by:'admin'}); }catch(e){}
     closeModal();
     toast('✓ Đã đặt Backup Password — sẽ tự backup lên Drive','good');
@@ -2714,7 +2702,7 @@ async function promptBackupPasswordForSession(){
       errEl.textContent = '';
       const ok = await verifyBackupPassword(pw, cfg.backupPassword);
       if(!ok){ errEl.textContent = '❌ Backup password sai'; return; }
-      sessionStorage.setItem('seahorse_demo_backup_pw', pw);
+      sessionStorage.setItem('seahorse_backup_pw', pw);
       closeModal();
       resolve(pw);
     };
@@ -3503,7 +3491,7 @@ function setAuthConfig(cfg){localStorage.setItem(AUTH_KEY,JSON.stringify(cfg));}
    3 lần sai trong 5 phút → khóa 5 phút theo tên user
    Lưu trong localStorage để giữ qua reload
    ============================================================ */
-const LOGIN_FAIL_KEY='seahorse_demo_login_fails_v1';
+const LOGIN_FAIL_KEY='seahorse_login_fails_v1';
 const MAX_FAIL_ATTEMPTS=3;
 const FAIL_WINDOW_MS=5*60*1000;  // 5 phút
 const LOCK_DURATION_MS=5*60*1000;  // khóa 5 phút
@@ -3571,7 +3559,7 @@ let _maxSessionTimer=null;
 function startMaxSessionTimer(){
   clearTimeout(_maxSessionTimer);
   if(!SESSION_START_TS){
-    const stored=+localStorage.getItem('seahorse_demo_session_start')||0;
+    const stored=+localStorage.getItem('seahorse_session_start')||0;
     if(stored) SESSION_START_TS=stored;
     else return;
   }
@@ -3596,7 +3584,7 @@ async function forceLogoutSession(){
   CURRENT_ROLE=null;
   CURRENT_USER=null;
   SESSION_START_TS=null;
-  localStorage.removeItem('seahorse_demo_session_start');
+  localStorage.removeItem('seahorse_session_start');
   alert('⏱ Phiên đăng nhập đã hết 8 giờ. Đăng nhập lại để tiếp tục.');
   location.reload();
 }
@@ -3675,7 +3663,7 @@ async function authAction(){
     // Success: clear failed attempts + record session start
     clearLoginFails(name);
     SESSION_START_TS=Date.now();
-    localStorage.setItem('seahorse_demo_session_start',String(SESSION_START_TS));
+    localStorage.setItem('seahorse_session_start',String(SESSION_START_TS));
     // Self-wrap in cloud cfg if cloud is configured (fire-and-forget)
     // This silently creates/updates wrap for this user on cloud cfg, so they can pull from new device next time
     if(cfg.scriptUrl){
@@ -4770,7 +4758,7 @@ async function _complete2FALogin(){
   // Continue normal post-login flow (mirrors original login code)
   clearLoginFails(pending.name);
   SESSION_START_TS = Date.now();
-  localStorage.setItem('seahorse_demo_session_start', String(SESSION_START_TS));
+  localStorage.setItem('seahorse_session_start', String(SESSION_START_TS));
   const cfg = getAuthConfig();
   if(cfg.scriptUrl && CURRENT_ROLE === 'user'){
     selfWrapInCloudCfg(pending.name, pending.pw).catch(e => console.warn('[self-wrap]', e.message));
@@ -5046,7 +5034,7 @@ async function manualCloudBackup(){
   if(!isAdmin()){ toast('Chỉ admin','bad'); return; }
   const cfg = getAuthConfig();
   if(!cfg.backupPassword?.hash){ showSetupBackupPasswordPrompt(); return; }
-  let backupPw = sessionStorage.getItem('seahorse_demo_backup_pw');
+  let backupPw = sessionStorage.getItem('seahorse_backup_pw');
   if(!backupPw){
     backupPw = await promptBackupPasswordForSession();
     if(!backupPw){ toast('Cần backup password để backup','warn'); return; }
@@ -5183,7 +5171,7 @@ async function _executeChangeBackupPw(){
     const newAuth = await setupBackupPassword(pwNew);
     cfg.backupPassword = newAuth;
     setAuthConfig(cfg);
-    sessionStorage.setItem('seahorse_demo_backup_pw', pwNew);
+    sessionStorage.setItem('seahorse_backup_pw', pwNew);
     try{ logAuditEvent('backup_pw_change', {by:'admin'}); }catch(e){}
     closeModal();
     toast('✓ Đã đổi Backup Password','good');
@@ -6401,7 +6389,7 @@ function helpDetectRole(){
    localStorage key: seahorse_welcome_seen_<username> */
 function checkWelcomePopup(){
   const userKey = isAdmin() ? 'admin' : (CURRENT_USER && CURRENT_USER.name) || 'unknown';
-  const flag = 'seahorse_demo_welcome_seen_' + userKey;
+  const flag = 'seahorse_welcome_seen_' + userKey;
   try{
     if(localStorage.getItem(flag)) return;  // already seen
   }catch(e){return;}
@@ -7113,7 +7101,7 @@ async function logout(){
   clearTimeout(_idleWarnTimer);
   clearTimeout(_maxSessionTimer);
   SESSION_START_TS=null;
-  localStorage.removeItem('seahorse_demo_session_start');
+  localStorage.removeItem('seahorse_session_start');
 
   // CRITICAL: Force sync any pending changes BEFORE logging out
   // Prevents race condition where new user/data is local-only but cloud has old state
@@ -7852,7 +7840,7 @@ const COST_CATS = {
 };
 
 /* ===== STATE ===== */
-const STORE_KEY = 'seahorse_demo_v1';
+const STORE_KEY = 'seahorse_v1';
 let S = loadState();
 // v1.36: Auto-migrate plans on app load (derive profit field if missing)
 try{
@@ -9959,10 +9947,10 @@ function openModal(title,bodyHtml,footHtml){
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 
 /* v1.45.0: Modal wide-mode toggle
-   - localStorage key 'seahorse_demo_modal_wide' = '1' / '0' (default '0')
+   - localStorage key 'seahorse_modal_wide' = '1' / '0' (default '0')
    - User can also press Alt+W to toggle anytime */
 function isModalWide(){
-  try{ return localStorage.getItem('seahorse_demo_modal_wide')==='1'; }catch(e){return false;}
+  try{ return localStorage.getItem('seahorse_modal_wide')==='1'; }catch(e){return false;}
 }
 function applyModalWideMode(){
   const win = document.getElementById('modal-window');
@@ -9978,7 +9966,7 @@ function applyModalWideMode(){
 }
 function toggleModalWide(){
   const newState = !isModalWide();
-  try{ localStorage.setItem('seahorse_demo_modal_wide', newState?'1':'0'); }catch(e){}
+  try{ localStorage.setItem('seahorse_modal_wide', newState?'1':'0'); }catch(e){}
   applyModalWideMode();
 }
 
