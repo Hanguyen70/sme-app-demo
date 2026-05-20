@@ -1,5 +1,5 @@
 {
-  "version": "1.62.1-DEMO",
+  "version": "1.62.2-DEMO",
   "released": "2026-05-20",
-  "notes": "Sắp xếp lại nav: M.Danh mục chuyển lên ngay sau Dashboard (trước 02 Dự án) — master data là nền tảng nhập liệu."
+  "notes": "Nav: đổi '0N OFFHIRE' thành '03 ON-OFFHIRE' (giữ số 03, tên rõ nghĩa on-hire/off-hire)."
 }
