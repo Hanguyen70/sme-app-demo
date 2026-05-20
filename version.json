@@ -1,5 +1,5 @@
 {
-  "version": "1.62.2",
+  "version": "1.62.2-DEMO",
   "released": "2026-05-20",
-  "notes": "NAV LABEL — Đổi nhãn nav '0N OFFHIRE' thành '03 ON-OFFHIRE'. Giữ số thứ tự 03 (nhất quán với 00/02/04/05...), tên 'ON-OFFHIRE' rõ nghĩa on-hire/off-hire. Cập nhật text trong bảng onhire report."
+  "notes": "Nav: đổi '0N OFFHIRE' thành '03 ON-OFFHIRE' (giữ số 03, tên rõ nghĩa on-hire/off-hire)."
 }
