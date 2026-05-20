@@ -1,5 +1,5 @@
 {
-  "version": "1.59.0-DEMO",
+  "version": "1.61.0-DEMO",
   "released": "2026-05-19",
-  "notes": "Banking-grade 2FA: Bỏ checkbox 'Nhớ thiết bị 7 ngày'. Mỗi lần đăng nhập đều phải nhập 6 số từ GA. An toàn nhất cho dữ liệu tài chính."
+  "notes": "Auto-backup cloud Google Drive: Setup Backup Password riêng (KHÁC password admin). Mỗi 7 ngày tự động upload .json lên Drive folder 'Seahorse Backups'. Giữ 12 file gần nhất."
 }
