@@ -1,5 +1,5 @@
 {
-  "version": "1.64.0-DEMO",
+  "version": "1.64.1-DEMO",
   "released": "2026-05-20",
-  "notes": "Smart Setup: máy mới mở app → hỏi 'Đã có tài khoản?' (chặn NV tạo admin nhầm). Link mời ?join= → NV vào thẳng Login. Modal 'Mời NV' có link + mật khẩu tạm + mẫu tin nhắn Zalo."
+  "notes": "Hard guard: NV cố tình tạo admin + nhập URL công ty → app kiểm tra cloud → TỪ CHỐI nếu cloud đã có data. Chặn cứng đè dữ liệu."
 }
