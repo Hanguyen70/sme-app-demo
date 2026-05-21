@@ -1,5 +1,5 @@
 {
-  "version": "1.75.0-DEMO",
-  "released": "2026-05-20",
-  "notes": "Đa công ty bước 3: bộ lọc Công ty trong sổ + Báo cáo Quản trị tổng hợp cho BOD."
+  "version": "1.77.0-DEMO",
+  "released": "2026-05-21",
+  "notes": "Import Phải thu/Phải trả nhận cột Công ty + tương thích biểu mẫu Bảng kê thanh toán."
 }
