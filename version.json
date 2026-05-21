@@ -1,5 +1,5 @@
 {
-  "version": "1.93.0-DEMO",
+  "version": "1.94.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. BÁO CÁO QUẢN TRỊ — thêm dòng tỷ giá USD/VNĐ bình quân gia quyền cả năm trong phần ghi chú, tính từ các lần thanh toán AR/AP ngoại tệ trong năm báo cáo."
+  "notes": "Bản DEMO. PHÂN QUYỀN SỬA TỶ GIÁ: ô tỷ giá VND/USD nay chỉ Kế toán trưởng + Admin sửa được, người khác xem nhưng ô bị khóa."
 }
