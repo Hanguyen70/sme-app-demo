@@ -1,5 +1,5 @@
 {
-  "version": "1.81.0-DEMO",
+  "version": "1.82.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Form chi phí: dropdown tàu gộp 2 nhóm — tàu công ty + tàu quản lý vận hành."
+  "notes": "Dropdown Tàu lọc theo Mảng; khóa nút thêm tàu công ty trong Danh mục."
 }
