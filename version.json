@@ -1,5 +1,5 @@
 {
-  "version": "1.86.0-DEMO",
+  "version": "1.89.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. TÀI SẢN — TÀU & SỐ HÓA ĐƠN PHẢI THU. (1) Thêm TSCĐ nhóm Tàu thuyền có thêm ô 'Loại tàu' (Dịch vụ/Kỹ thuật); tàu tự đẩy sang Danh mục Tàu để chọn khi nhập chi phí/doanh thu. Tàu sinh từ TSCĐ hiển thị read-only ở Danh mục, sửa/xóa tại tab 09 Tài sản. (2) Phải thu: form có ô 'Số hóa đơn', hiển thị thành cột trong sổ; thêm nút Xuất Excel/PDF để đối chiếu; Import Excel nhận thêm cột Số hóa đơn."
+  "notes": "Bản DEMO. QUẢN LÝ VẬN HÀNH TÀU — ĐA NGOẠI TỆ QUY VỀ USD. Mỗi giao dịch thu/chi hộ nhập theo ngoại tệ gốc + tỷ giá → USD. Sổ và báo cáo: hiện ngoại tệ gốc để backcharge, Số dư + Tổng theo USD. Import Excel nhận thêm cột Ngoại tệ gốc và Tỷ giá USD."
 }
