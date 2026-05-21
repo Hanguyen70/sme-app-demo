@@ -1,5 +1,5 @@
 {
-  "version": "1.82.0-DEMO",
+  "version": "1.84.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Dropdown Tàu lọc theo Mảng; khóa nút thêm tàu công ty trong Danh mục."
+  "notes": "Số liệu lịch sử: chỉ Admin/BOD/Viewer xem được trong báo cáo."
 }
