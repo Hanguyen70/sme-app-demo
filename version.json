@@ -1,5 +1,5 @@
 {
-  "version": "1.94.0-DEMO",
+  "version": "1.96.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. PHÂN QUYỀN SỬA TỶ GIÁ: ô tỷ giá VND/USD nay chỉ Kế toán trưởng + Admin sửa được, người khác xem nhưng ô bị khóa."
+  "notes": "Bản DEMO. DỰ ÁN HOÀN THÀNH — ẨN KHỎI DROPDOWN NHẬP AR/AP: dự án đã đánh dấu hoàn thành không còn hiện trong dropdown khi nhân viên nhập hóa đơn Phải thu/Phải trả mới. Bút toán cũ và form sửa vẫn giữ đủ dự án."
 }
