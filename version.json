@@ -1,5 +1,5 @@
 {
-  "version": "1.77.0-DEMO",
+  "version": "1.79.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Import Phải thu/Phải trả nhận cột Công ty + tương thích biểu mẫu Bảng kê thanh toán."
+  "notes": "Tab Tài sản: thêm trường Công ty, Import/Export Excel + PDF, khấu hao thành tùy chọn."
 }
