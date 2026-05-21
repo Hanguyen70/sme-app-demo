@@ -1,5 +1,5 @@
 {
-  "version": "1.89.0-DEMO",
+  "version": "1.93.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. QUẢN LÝ VẬN HÀNH TÀU — ĐA NGOẠI TỆ QUY VỀ USD. Mỗi giao dịch thu/chi hộ nhập theo ngoại tệ gốc + tỷ giá → USD. Sổ và báo cáo: hiện ngoại tệ gốc để backcharge, Số dư + Tổng theo USD. Import Excel nhận thêm cột Ngoại tệ gốc và Tỷ giá USD."
+  "notes": "Bản DEMO. BÁO CÁO QUẢN TRỊ — thêm dòng tỷ giá USD/VNĐ bình quân gia quyền cả năm trong phần ghi chú, tính từ các lần thanh toán AR/AP ngoại tệ trong năm báo cáo."
 }
