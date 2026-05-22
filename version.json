@@ -1,5 +1,5 @@
 {
-  "version": "2.05.0-DEMO",
+  "version": "2.06.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. SỬA LỖI GỐC MẤT WRAP NHÂN VIÊN: app không còn tạo master key mới khi đọc cloud thất bại — chỉ tạo khi cloud thật sự trống, ngược lại dừng và báo lỗi. Đổi mật khẩu một NV không còn ảnh hưởng NV khác."
+  "notes": "Bản DEMO. SỬA LỖI NHÂN VIÊN KHÔNG ĐĂNG NHẬP ĐƯỢC TRÊN MÁY MỚI: app luôn tự tải cấu hình tài khoản từ cloud, không còn phụ thuộc link mời đặc biệt."
 }
