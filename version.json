@@ -1,5 +1,5 @@
 {
-  "version": "2.06.0-DEMO",
+  "version": "2.07.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. SỬA LỖI NHÂN VIÊN KHÔNG ĐĂNG NHẬP ĐƯỢC TRÊN MÁY MỚI: app luôn tự tải cấu hình tài khoản từ cloud, không còn phụ thuộc link mời đặc biệt."
+  "notes": "Bản DEMO. SỬA LỖI GỐC nhân viên không đăng nhập được trên máy mới: chức năng Đặt lại mật khẩu nay tự đẩy lên cloud ngay trong cùng thao tác — cấu hình ở máy và trên cloud luôn khớp."
 }
