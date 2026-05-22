@@ -1,5 +1,5 @@
 {
-  "version": "2.01.0-DEMO",
+  "version": "2.03.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. EXCEL DỄ ĐỌC + BIÊN BẢN BÀN GIAO AP: file Excel xuất ra có dấu phân cách nghìn; khu Phải trả thêm nút Biên bản bàn giao bộ chứng từ có ô ký xác nhận."
+  "notes": "Bản DEMO. ĐỔI NHÃN 'NGÀY HÓA ĐƠN': trong Phải thu/Phải trả, 'Ngày phát sinh' / 'Ngày PS' đổi thành 'Ngày hóa đơn' / 'Ngày HĐ' cho dễ hiểu."
 }
