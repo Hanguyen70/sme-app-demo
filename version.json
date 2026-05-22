@@ -1,5 +1,5 @@
 {
-  "version": "2.03.0-DEMO",
+  "version": "2.04.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. ĐỔI NHÃN 'NGÀY HÓA ĐƠN': trong Phải thu/Phải trả, 'Ngày phát sinh' / 'Ngày PS' đổi thành 'Ngày hóa đơn' / 'Ngày HĐ' cho dễ hiểu."
+  "notes": "Bản DEMO. TỰ SINH MẬT KHẨU + ĐẶT LẠI MẬT KHẨU NV: nút Tạo tự động khi tạo NV, nút Đặt lại mật khẩu (🔑) cho từng NV, mẫu tin Zalo soạn sẵn, và dialog Đẩy auth đánh dấu NV thiếu wrap."
 }
