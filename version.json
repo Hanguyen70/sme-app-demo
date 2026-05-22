@@ -1,5 +1,5 @@
 {
-  "version": "2.04.0-DEMO",
+  "version": "2.05.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. TỰ SINH MẬT KHẨU + ĐẶT LẠI MẬT KHẨU NV: nút Tạo tự động khi tạo NV, nút Đặt lại mật khẩu (🔑) cho từng NV, mẫu tin Zalo soạn sẵn, và dialog Đẩy auth đánh dấu NV thiếu wrap."
+  "notes": "Bản DEMO. SỬA LỖI GỐC MẤT WRAP NHÂN VIÊN: app không còn tạo master key mới khi đọc cloud thất bại — chỉ tạo khi cloud thật sự trống, ngược lại dừng và báo lỗi. Đổi mật khẩu một NV không còn ảnh hưởng NV khác."
 }
