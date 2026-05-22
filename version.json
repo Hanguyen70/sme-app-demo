@@ -1,5 +1,5 @@
 {
-  "version": "2.00.0-DEMO",
+  "version": "2.01.0-DEMO",
   "released": "2026-05-21",
-  "notes": "Bản DEMO. THÊM MẢNG KINH DOANH CẢNG BIỂN (PORT) bên cạnh 5 mảng cũ — xuất hiện đầy đủ trong dropdown nhập liệu, form Kế hoạch/Dự án, báo cáo theo mảng và import Excel."
+  "notes": "Bản DEMO. EXCEL DỄ ĐỌC + BIÊN BẢN BÀN GIAO AP: file Excel xuất ra có dấu phân cách nghìn; khu Phải trả thêm nút Biên bản bàn giao bộ chứng từ có ô ký xác nhận."
 }
