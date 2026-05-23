@@ -1,5 +1,5 @@
 {
-  "version": "2.07.0-DEMO",
-  "released": "2026-05-21",
-  "notes": "Bản DEMO. SỬA LỖI GỐC nhân viên không đăng nhập được trên máy mới: chức năng Đặt lại mật khẩu nay tự đẩy lên cloud ngay trong cùng thao tác — cấu hình ở máy và trên cloud luôn khớp."
+  "version": "2.10.0-DEMO",
+  "released": "2026-05-22",
+  "notes": "Bản DEMO v2.10.0. Bản production đã sửa lỗi gốc: cập nhật địa chỉ Apps Script sang bản triển khai đúng."
 }
