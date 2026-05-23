@@ -1,5 +1,5 @@
 {
-  "version": "2.10.0-DEMO",
+  "version": "2.11.0-DEMO",
   "released": "2026-05-22",
-  "notes": "Bản DEMO v2.10.0. Bản production đã sửa lỗi gốc: cập nhật địa chỉ Apps Script sang bản triển khai đúng."
+  "notes": "Bản DEMO v2.11.0. Bản production sửa 2 lỗi đăng nhập: cập nhật địa chỉ Apps Script đúng, và sửa lỗi gọi nhầm tên hàm trong đoạn nâng cấp dữ liệu cũ."
 }
