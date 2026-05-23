@@ -1,5 +1,5 @@
 {
-  "version": "2.11.0-DEMO",
-  "released": "2026-05-22",
-  "notes": "Bản DEMO v2.11.0. Bản production sửa 2 lỗi đăng nhập: cập nhật địa chỉ Apps Script đúng, và sửa lỗi gọi nhầm tên hàm trong đoạn nâng cấp dữ liệu cũ."
+  "version": "2.12.0-DEMO",
+  "released": "2026-05-23",
+  "notes": "Bản DEMO v2.12.0. Sửa cảnh báo bảo mật báo nhầm tên miền, và gỡ nhật ký chẩn đoán."
 }
