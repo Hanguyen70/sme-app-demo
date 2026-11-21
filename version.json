@@ -1,5 +1,1 @@
-{
-  "version": "2.12.0-DEMO",
-  "released": "2026-05-23",
-  "notes": "Bản DEMO v2.12.0. Sửa cảnh báo bảo mật báo nhầm tên miền, và gỡ nhật ký chẩn đoán."
-}
+{"version": "3.78.79", "date": "2026-11-21", "notes": "3.78.79 — (Sếp duyệt mẫu 101 · 21/11 14:08) Quét QR tài sản khi chưa đăng nhập: hiện trang công khai — logo công ty, mã tài sản, thông báo song ngữ \"Đây là tài sản thuộc quyền sở hữu của công ty. Vui lòng không di dời, bóc tem. / This asset is the property of the company. Please do not move it or remove the label.\", www.seahorse.com.vn, nút Đăng nhập · Staff login.\n· Không hiện tên tài sản / giá / người giữ / bộ phận; mã sai cũng hiện y như vậy. Link trong QR giữ nguyên — tem đã in vẫn dùng.\n· Đã đăng nhập sẵn → vào thẳng thẻ tài sản; đăng nhập từ trang này → mở thẻ tài sản theo quyền.\n(gồm toàn bộ 3.78.78)\n"}
